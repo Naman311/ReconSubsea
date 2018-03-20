@@ -3,8 +3,9 @@ import pygame
 import socket
 import sys
 
+count=0
 # Create a UDP socket
-
+laststate=0
 server_address = ('169.254.234.100', 5000)
 # Initializing controller
 pygame.init()
@@ -31,6 +32,7 @@ print ('Initialized Joystick : %s' % j.get_name())
 """
 
 def get():
+    global count,laststate
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     it = 0 #iterator
     pygame.event.pump()
@@ -39,7 +41,7 @@ def get():
     for i in range(0, j.get_numaxes()):
         out[it] = round(j.get_axis(i))
         it+=1
-    #Read input from buttons
+    #Read input from button
     for i in range(0, j.get_numbuttons()):
         out[it] = j.get_button(i)
         it+=1
@@ -51,6 +53,16 @@ def get():
         out[3]=0.0
     if(out[4]==0.1 or out[4]==-0.1):
         out[4]=0.0
+    if(out[9]==1):
+        if(laststate==0):
+            count+=1
+            laststate=1
+            if(count>3):
+                count=0
+    if(out[9]==0):
+        laststate=0
+    #print(count)
+    out[9]=count
     s=str(out).strip('[]')
     print(s)
     return s
