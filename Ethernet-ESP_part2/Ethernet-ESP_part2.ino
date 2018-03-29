@@ -25,7 +25,7 @@ const char* hostOBS="192.168.1.10";
 
 int t1=0;int t2=-1;int t3=4;int t4=2;
 int v1=0; long y=0;long p=0; long r=0;
-int nos[9]={-1,-1,-1,-1,-1,-1,-1,-1,-1};int nNos=-1;               //For Ethernet receiving
+int nos[17]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};int nNos=-1;               //For Ethernet receiving
 long temp;
 long humidity;
 long internal_pressure;
@@ -63,7 +63,7 @@ void addNos(String data)
   String ss="";
   for(int i=0;i<data.length();i++)
   {
-    if(data[i]==',')
+    if(data[i]==','||data[i]!=data[data.length()-1])
     {
       nos[++nNos]==ss.toInt();
       ss="";
@@ -76,6 +76,8 @@ void addNos(String data)
     }
     else ss+=data[i];
   }
+  for(int i=0;i<=nNos;i++){Serial.print(data[i]);Serial.print(" ");}
+  Serial.println();
 }
 //------------------------------variables for WiFi---------------------------------
 bool conStatus=false;
@@ -124,7 +126,8 @@ void loop() {
     datReq=packetBuffer; //Convert packetBuffer array to string datReq
     Serial.println("String Received"+datReq);
     addNos(datReq);
-    switch(nos[8])
+    
+    /*switch(nos[9])
     { 
       case 0: Serial.println("Case 0");
             client.stop();
@@ -177,7 +180,7 @@ void loop() {
             }
             break;
     default: Serial.println("Different Data Received");
-  }
+  }*/
   }
     Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
     Udp.print(output); //Send string back to client 
