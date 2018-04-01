@@ -52,19 +52,19 @@ def get():
     if(out[4]==0.1 or out[4]==-0.1):
         out[4]=0.0
     s=str(out).strip('[]')
-    print(s)
+    #print(s)
     return s
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 while True:    
     # Send data
-    get()
-    '''sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
-    while True:
-        try:
+    #get()
+    sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+    #while True:
+    try:
         # Receive response
-            data, server = sock.recvfrom(4096)
-            print(data.decode())
-        except:
+        data, server = sock.recvfrom(4096)
+        print(data.decode())
+    except:
         #print("Data is passed")
-            pass
-'''
+        pass
+

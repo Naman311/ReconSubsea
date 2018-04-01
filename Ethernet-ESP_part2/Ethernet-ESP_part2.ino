@@ -100,11 +100,16 @@ void obsConfigure()
 }
 
 void setup() {
-  
-Serial.begin(9600); //Turn on Serial Port
+Serial.println("Initialized.........1");
+Serial.begin(115200); //Turn on Serial Port
+Serial.println("Initialized.........2");
 Ethernet.begin(mac, ip); //Initialize Ethernet
+Serial.println("Initialized.........3");
 Udp.begin(localPort); //Initialize Udp
+Serial.println("Initialized.........4");
 delay(1500); //delay
+Serial.println("Initialized.........5");
+WiFi.mode(WIFI_STA);
 }
 
 void loop() {
@@ -126,8 +131,7 @@ void loop() {
     datReq=packetBuffer; //Convert packetBuffer array to string datReq
     Serial.println("String Received"+datReq);
     addNos(datReq);
-    
-    /*switch(nos[9])
+    switch(nos[9])
     { 
       case 0: Serial.println("Case 0");
             client.stop();
@@ -180,7 +184,7 @@ void loop() {
             }
             break;
     default: Serial.println("Different Data Received");
-  }*/
+  }
   }
     Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
     Udp.print(output); //Send string back to client 

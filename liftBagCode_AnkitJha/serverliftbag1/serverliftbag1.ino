@@ -29,7 +29,7 @@ void setupServer()
 }
 void endConnection()
 {
-  WiFi.end();                               //Ends wiFi access point.
+  //WiFi.end();                               //Ends wiFi access point.
   delay(5000);
   setupServer();
 }
