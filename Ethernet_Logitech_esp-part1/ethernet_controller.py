@@ -33,7 +33,7 @@ print ('Initialized Joystick : %s' % j.get_name())
 
 def get():
     global count,laststate
-    out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] #17 values
     it = 0 #iterator
     pygame.event.pump()
     
