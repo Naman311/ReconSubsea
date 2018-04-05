@@ -22,7 +22,7 @@ void loop()
     byte spi_dat;
 
     digitalWrite(CS, LOW);                                     //Pull CS Line Low
-    for (const char * p = "Hello, world!\n" ; c = *p; p++)
+    for (const char * p = "Hello, world!:#$\n" ; c = *p; p++)
     SPI.transfer (c);
     /*SPI.transfer(0x02); */                                       //Send a byte (0x02) to the slave i.e. Arduino UNO
     digitalWrite(CS, HIGH);                                    //Pull CS Line High
