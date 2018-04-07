@@ -72,9 +72,9 @@ String converstion(int t1,int t2,int t3,int t4,int v1,long y,long p,long r,long 
   result+=internal_pressure;
   return (result);
   }
- // function to covert string to int array
- float nos[17];
- int nNos=-1;  
+// function to covert string to int array
+float nos[17];
+int nNos=-1;  
 
 void addNos(String data)
 {
@@ -102,15 +102,104 @@ void addNos(String data)
 }
 
 // function to control thrusters
-  thruster_movement()
+void thruster_movement()
+{
+  int signal;
+  if(nos[1]<=0)
   {
-    
-    // thruster code
-    int signal = 1100; // Set signal value, which should be between 1100 and 1900
-  
-    servo.writeMicroseconds(signal); // Send signal to ESC.
+     signal = map(nos[1],-10,0,1100,1500);
   }
+  else if(nos[1]>0)
+  {
+    signal = map(nos[1],1,10,1501,1900);
+  }
+  // thruster code
+  //int signal = 1100; // Set signal value, which should be between 1100 and 1900
+  //Serial.println(nos[1]);
+  Serial.println(signal);
+  servo.writeMicroseconds(signal); // Send signal to ESC.
+}
+/*void move_down()
+{
+  int signal=map(nos[1],0,1,1500,1100);
+  l.writeMicroseconds(signal);
+  r.writeMicroseconds(signal);
+}
 
+void move_up()
+{
+  int signal=map(nos[1],-0.1,-1,1501,1900);
+  l.writeMicroseconds(signal);
+  r.writeMicroseconds(signal);
+}
+void move_forward()
+{
+  int signal=map(nos[3],-0.1,-1,1501,1900);
+  fl.writeMicroseconds(signal);
+  fr.writeMicroseconds(signal);
+}
+void move_backward()
+{
+  int signal=map(nos[3],0,1,1500,1100);
+  fl.writeMicroseconds(signal);
+  fr.writeMicroseconds(signal);
+}
+void move_left()
+{
+  int signal=map(nos[2],-0.1,-1,1501,1900);
+  fl.writeMicroseconds(signal);
+  bl.writeMicroseconds(signal);
+}
+void move_right()
+{
+  int signal=map(nos[2],0,1,1500,1100);
+  fr.writeMicroseconds(signal);
+  br.writeMicroseconds(signal);
+}
+void pitch_anti()
+{//yet to complete
+  int signal=map(nos[0],-0.1,-1,1501,1900);
+}
+void pitch_cloc()
+{//yet to complete
+  int signal=map(nos[0],0,1,1501,1900);
+}
+void movement()
+{//l r fl fr bl br
+  int l_signal,r_signal,fl_signal,fr_signal,bl_signal,br_signal;
+  if(nos[1]<=0)
+  {
+    move_down();
+  }
+  else if(nos[1]>0)
+  {
+    move_up();
+  }
+  if(nos[0]<=0)
+  {
+    pitch_anti();
+  }
+  else if(nos[0]>0)
+  {
+    pitch_cloc();
+  }
+  if(nos[3]<=0)
+  {
+    move_backward();
+  }
+  else if(nos[3]>0)
+  {
+    move_forward();
+  }
+  if(nos[4]<=0)
+  {
+    move_left();
+  }
+  else if(nos[4]>0)
+  {
+    move_right();
+  }
+}*/
 void setup() {
   // Ethernet setup
   Serial.begin(9600); //Turn on Serial Port
@@ -152,4 +241,5 @@ void loop() {
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
+  //delay(100);
 }

@@ -37,12 +37,16 @@ def get():
     
     #Read input from the two joysticks       
     for i in range(0, j.get_numaxes()):
-        out[it] = round(j.get_axis(i))
+        out[it] = round(j.get_axis(i),1)
         it+=1
     #Read input from buttons
     for i in range(0, j.get_numbuttons()):
         out[it] = j.get_button(i)
         it+=1
+    if(abs(out[1])>abs(out[0])):
+        out[0]=0.0
+    else:
+        out[1]=0.0
     if(out[1]==0.1 or out[1]==-0.1):
         out[1]=0.0
     if(out[0]==0.1 or out[0]==-0.1):
@@ -51,13 +55,14 @@ def get():
         out[3]=0.0
     if(out[4]==0.1 or out[4]==-0.1):
         out[4]=0.0
+    out[1]=out[1]*10
     s=str(out).strip('[]')
     #print(s)
     return s
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 while True:    
     # Send data
-    #get()
+    get()
     sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
     #while True:
     try:
@@ -67,4 +72,4 @@ while True:
     except:
         #print("Data is passed")
         pass
-
+    #time.sleep(0.1)
