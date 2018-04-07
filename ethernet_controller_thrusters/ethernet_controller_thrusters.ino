@@ -116,53 +116,53 @@ void thruster_movement()
   // thruster code
   //int signal = 1100; // Set signal value, which should be between 1100 and 1900
   //Serial.println(nos[1]);
-  Serial.println(signal);
+  //Serial.println(signal);
   servo.writeMicroseconds(signal); // Send signal to ESC.
 }
-/*void move_down()
+void move_down()
 {
-  int signal=map(nos[1],0,1,1500,1100);
+  int signal=map(nos[1],1,10,1501,1900);
   l.writeMicroseconds(signal);
   r.writeMicroseconds(signal);
 }
 
 void move_up()
 {
-  int signal=map(nos[1],-0.1,-1,1501,1900);
+  int signal=map(nos[1],-10,0,1100,1500);
   l.writeMicroseconds(signal);
   r.writeMicroseconds(signal);
 }
 void move_forward()
 {
-  int signal=map(nos[3],-0.1,-1,1501,1900);
+  int signal=map(nos[3],-10,0,1100,1500);
   fl.writeMicroseconds(signal);
   fr.writeMicroseconds(signal);
 }
 void move_backward()
 {
-  int signal=map(nos[3],0,1,1500,1100);
+  int signal=map(nos[3],1,10,1501,1900);
   fl.writeMicroseconds(signal);
   fr.writeMicroseconds(signal);
 }
 void move_left()
 {
-  int signal=map(nos[2],-0.1,-1,1501,1900);
+  int signal=map(nos[2],-10,0,1100,1500);
   fl.writeMicroseconds(signal);
   bl.writeMicroseconds(signal);
 }
 void move_right()
 {
-  int signal=map(nos[2],0,1,1500,1100);
+  int signal=map(nos[2],1,10,1501,1900);
   fr.writeMicroseconds(signal);
   br.writeMicroseconds(signal);
 }
 void pitch_anti()
 {//yet to complete
-  int signal=map(nos[0],-0.1,-1,1501,1900);
+  int signal=map(nos[0],-10,0,1100,1500);
 }
 void pitch_cloc()
 {//yet to complete
-  int signal=map(nos[0],0,1,1501,1900);
+  int signal=map(nos[0],1,10,1100,1500);
 }
 void movement()
 {//l r fl fr bl br
