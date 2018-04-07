@@ -1,7 +1,7 @@
 #include <SPI.h>
 
 char buf [100];
-char checkBuf[3] = ":#$";
+char checkBuf[4] = ":#$";
 volatile byte pos;
 volatile boolean process_it;                                   //Flag for checking if the data is recieved from Master i.e. ESP8266
 //byte a;                                                        //Byte to store the processed data
@@ -9,6 +9,7 @@ void setup(void)
 {
   Serial.begin(115200);                                     //Set UART baug rate to 115200
   SPCR |= bit(SPE);                                         //Configure ATMEGA328P/Arduino in slave mode
+  SPCR |= bit(SPIE);
   pinMode(MISO, OUTPUT);                                    //Configure MISO as output, SlaveOut
   pos = 0;   // buffer empty
   process_it = false;                                       //Initialize flag to FALSE
@@ -38,9 +39,11 @@ void loop(void)
 {
   if (process_it)                                         //Check if the data has been processed
   {
-    int i = sizeof(buf), j1 = 0, chkSum = 0;
-    Serial.print("::");Serial.println(buf);
-    for (int j = i - 4; j < i - 1; j++)if (buf[j] != checkBuf[j1++]) {
+    int  j1 = 0, chkSum = 0;
+    for(int i=0;i<pos-2;i++)Serial.print(buf[i]);
+    Serial.println();
+    Serial.println(buf[pos-2]);
+    for (int j = pos - 5; j <pos - 2; j++)if (buf[j] != checkBuf[j1++]) {
         chkSum = 1;
         break;
       }

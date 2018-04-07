@@ -37,21 +37,21 @@ byte transferAndWait(const byte what)
 void loop()
 {
 char c;
-byte r;
+char r;
 // enable Slave Select 
 digitalWrite(SS_PIN, LOW);
 pos=0;
-for (const char *p="Hello, world!\n";c=*p;p++)
+for (const char *p="Hello, chutiye\n";c=*p;p++)
 {
    //SPI.transfer(c);
    r=transferAndWait(c);
-   respBuffer[pos++]=r;
-   Serial.print(c);
+   //respBuffer[pos++]=r;
+   //Serial.print(c);
    Serial.print(r);
 }
-Serial.println("RX:");
-Serial.println(pos,DEC);
-Serial.println(respBuffer);
+//Serial.println("RX:");
+//Serial.println(pos,DEC);
+//Serial.println(respBuffer);
 pos=0;
 delay(100);
 digitalWrite(SS_PIN, HIGH);

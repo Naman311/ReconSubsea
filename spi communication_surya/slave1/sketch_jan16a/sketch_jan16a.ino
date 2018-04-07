@@ -27,8 +27,9 @@ void loop (void)
 
   // send test string
   for (const char * p = "Hello, world!\n" ; c = *p; p++)
-    SPI.transfer (c);
-
+   { SPI.transfer (c);
+   delayMicroseconds(20);
+   }
   // disable Slave Select
   digitalWrite(SS, HIGH);
 
