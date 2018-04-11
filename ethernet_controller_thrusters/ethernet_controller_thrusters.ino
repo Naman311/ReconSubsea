@@ -119,7 +119,7 @@ void thruster_movement()
   //Serial.println(signal);
   servo.writeMicroseconds(signal); // Send signal to ESC.
 }
-void move_down()
+/*void move_down()
 {
   int signal=map(nos[1],1,10,1501,1900);
   l.writeMicroseconds(signal);
