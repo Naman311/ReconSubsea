@@ -14,7 +14,7 @@ HDC1050 hdcSensor;
 float tc, tf, h;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Wire.begin();
   
   Serial.println(hdcSensor.getManufacturerID(), HEX);
