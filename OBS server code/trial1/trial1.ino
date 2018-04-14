@@ -61,7 +61,7 @@ void setup() {
 String prepareHtmlPage()
 {
   String htmlPage=String("HTTP/1.1 200 OK\r\n")+"Content-Type: text/html\r\n"
-                    +"Connection: close\r\n"+"Refresh: 5\r\n"+"\r\n"
+                    +"Connection: close\r\n"
                     +"<!DOCTYPE HTML>"+
                     "<html>"+
                     "<h1>MATE 2018 SEISMOGRAPH STATUS</h1>"
@@ -75,6 +75,7 @@ void loop() {
       
       //adaFruit();
       WiFiClient client=server.available();
+      Serial.println(client);
       Serial.println(WiFi.softAPIP());
       if(client)  {
           while(client.connected())
@@ -91,6 +92,6 @@ void loop() {
           }
         
       }
-      delay(1);
+      delay(20);
       client.stop();
 }
