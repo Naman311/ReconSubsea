@@ -11,7 +11,7 @@ void setup() {
 }
 
 void loop() {
-  int signal = 1100; // Set signal value, which should be between 1100 and 1900
+  int signal = 1900; // Set signal value, which should be between 1100 and 1900
 
   servo.writeMicroseconds(signal); // Send signal to ESC.
 }
