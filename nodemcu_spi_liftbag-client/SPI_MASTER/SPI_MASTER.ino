@@ -73,6 +73,8 @@ void send(const char * message)
   Serial.println();
 }
 
+int incomingByte = 0;   // for incoming serial data
+
 void setup() {
   Serial.begin(115200);
   SPI.begin();
@@ -81,6 +83,26 @@ void setup() {
 }
 
 void loop() {
+  if (Serial.available() > 0) 
+  {
+      // read the incoming byte:
+      incomingByte = Serial.read();
+    
+      // say what you got:
+      //Serial.print("I received: ");
+      Serial.println(incomingByte, DEC);
+  }
   delay(2000);
-  send("one");
+  if(incomingByte==49)
+  {
+    send("one");
+  }
+  else if(incomingByte==50)
+  {
+    send("two"); 
+  }
+  else if(incomingByte==51)
+  {
+    send("three"); 
+  }
 }
