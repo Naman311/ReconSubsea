@@ -9,8 +9,7 @@ const char* host="192.168.2.7";
 //String dataRec ="<!DOCTYPE><html><body><h1>MATE 2018 SEISMOGRAPH STATUS</h1><p>Voltage=4.995 Xangle=1.506 Yangle=3.067 Count=0</p><p>DATA 0,4.4,-4.3,0,0,6.8,-7,0,0,1.6,-1.6,0,0,6.3,-6.4,0</p></body></html>";
 
 String html =  "<!DOCTYPE><html><body><h1>MATE 2018 SEISMOGRAPH STATUS</h1><p>Voltage=4.995 Xangle=1.506 Yangle=3.067 Count=0</p><p>DATA 0,4.4,-4.3,0,0,6.8,-7,0,0,1.6,-1.6,0,0,6.3,-6.4,0</p></body></html>";
-
-double arr[40];int narr=-1;
+float arr[40];int narr=-1;
 
 String test="ThisIsToTestLength";
 
@@ -45,7 +44,7 @@ Serial.println(html.length());
         ss+=html[j];
         i=j-1;
         Serial.println("Xangle:"+ss);
-        arr[++narr]=ss.toDouble();
+        arr[++narr]=ss.toFloat();
         
     }      
     else if(html.substring(i,i+7)=="Yangle=")
@@ -59,7 +58,7 @@ Serial.println(html.length());
         ss+=html[j];
         i=j-1;
         Serial.println("Yangle:"+ss);
-        arr[++narr]=ss.toDouble();
+        arr[++narr]=ss.toFloat();
         
     }
     
@@ -74,7 +73,7 @@ Serial.println(html.length());
         ss+=html[j];
         i=j;
         Serial.println("Count:"+ss);
-        arr[++narr]=ss.toDouble();
+        arr[++narr]=ss.toFloat();
         
     }
     else if(html.substring(i,i+5)=="DATA ")
@@ -89,13 +88,13 @@ Serial.println(html.length());
         {
           if(html[j]==',')
           {
-            arr[++narr]=ss.toDouble();
+            arr[++narr]=ss.toFloat();
             ss="";
             nn++;
           }
           else if(html[j]=='<')
           {
-            arr[++narr]=ss.toDouble();
+            arr[++narr]=ss.toFloat();
             ss="";
             nn++;
           }

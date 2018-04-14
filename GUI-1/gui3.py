@@ -179,7 +179,7 @@ def main():
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -363,7 +363,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(0)
 
 ###################################################################################################
 class ContourWithData():
@@ -501,6 +501,7 @@ def detect():
 
 a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
 
+
 ###################################################################################################################################
                                                         #Ethernet
 ###################################################################################################################################
@@ -571,41 +572,58 @@ def get():
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 def process_value():
+    b1=b2=b3=b4=b5=b6=b7=b8=b9=b10=b11=0
     while True:
-        global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
+        
         get()
         sent=sock.sendto(bytes(get(),"utf-8"),(server_address))
-        a1=a1+1
-        a2=a2+1
-        a3=a3+1
-        a4=a4+1
-        a5=a5+1
-        a6=a6+1
-        a7=a7+1
-        a8=a8+1
-        a9=a9+1
-        a10=a10+1
-        a11=a11+1
-        print(a1)
-        
-        time.sleep(0.5)
-        
-    '''
-    while True:    
-    # Send data
-        get()
-        sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
-    #while True:
         try:
         # Receive response
             data, server = sock.recvfrom(4096)
             print(data.decode())
+            data=data.decode()
+            string=data.split(',')
+            b1=int(string[0])
+            b2=int(string[1])
+            b3=int(string[2])
+            b4=int(string[3])
+            b5=int(string[4])
+            b6=int(string[5])
+            b7=int(string[6])
+            b8=int(string[7])
+            b9=int(string[8])
+            b10=int(string[9])
+            b11=int(string[10])
+            global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
+            a1=b1
+            a2=b2
+            a3=b3
+            a4=b4
+            a5=b5
+            a6=b6
+            a7=b7
+            a8=b8
+            a9=b9
+            a10=b10
+            a11=b11
         except:
         #print("Data is passed")
             pass
+        
+        #print(a1)
+        
+        #time.sleep(0.1)
+        
+    
+    #while True:    
+    # Send data
+        #get()
+        #sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+    #while True:
+        
     #time.sleep(0.1)
 
-    '''
+    
 ###################################################################################################################################
 ###################################################################################################################################
 
