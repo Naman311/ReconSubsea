@@ -8,7 +8,7 @@ Created on Sun Apr  1 16:28:50 2018
 from PyQt5 import QtCore, QtGui,QtWidgets ,uic
 from PyQt5.QtWidgets import QApplication,QWidget,QLineEdit,QApplication,QMainWindow,QPushButton,QMessageBox
 
-
+import random
 import sys
 import cv2
 import numpy as np
@@ -32,7 +32,7 @@ a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
-ser = serial.Serial('COM12',9600, timeout=1)
+#ser = serial.Serial('COM12',9600, timeout=1)
 
 ax = ay = az = 0.0
 #yaw_mode = False
@@ -130,7 +130,7 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-    global a6,a7,a8
+    global k,l,m
     # request data by sending a dot
 
     #while not line_done:
@@ -174,6 +174,7 @@ def main():
 
     print ("fps:  %d" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
     ser.close()
+
 
 ###################################################################################################################################
 ###################################################################################################################################
@@ -581,36 +582,36 @@ def process_value():
         sent=sock.sendto(bytes(get(),"utf-8"),(server_address))
         try:
         # Receive response
-            data = ser.readline()
-            data = data.decode('utf-8')
+            #data = ser.readline()
+            #data = data.decode('utf-8')
             #Data=data.split(',')
             #data, server = sock.recvfrom(4096)
             #print(data.decode())
             #data=data.decode()
-            string=data.split(',')
-            b1=int(string[0])
-            b2=int(string[1])
-            b3=int(string[2])
-            b4=int(string[3])
-            b5=int(string[4])
-            b6=int(string[5])
-            b7=int(string[6])
-            b8=int(string[7])
-            b9=int(string[8])
-            b10=int(string[9])
-            b11=int(string[10])
+            #string=data.split(',')
+            #b1=int(string[0])
+            #b2=int(string[1])
+            #b3=int(string[2])
+            #b4=int(string[3])
+            #b5=int(string[4])
+            #b6=int(string[5])
+            #b7=int(string[6])
+            #b8=int(string[7])
+            #b9=int(string[8])
+            #b10=int(string[9])
+            #b11=int(string[10])
             global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
-            a1=b1
-            a2=b2
-            a3=b3
-            a4=b4
-            a5=b5
-            a6=b6
-            a7=b7
-            a8=b8
-            a9=b9
-            a10=b10
-            a11=b11
+            a1=random.randint(0,10)
+            a2=random.randint(0,10)
+            a3=random.randint(0,10)
+            a4=random.randint(0,10)
+            a5=random.randint(0,10)
+            a6=random.randint(0,10)
+            a7=random.randint(0,10)
+            a8=random.randint(0,10)
+            a9=random.randint(0,10)
+            a10=random.randint(0,10)
+            a11=random.randint(0,10)
         except:
         #print("Data is passed")
             pass
@@ -692,8 +693,20 @@ def printx():
         print("m")
         print(m)
 '''        
-        
-        
+def printx():
+    global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
+    while 1:
+        a1=random.randint(0,10)
+        a2=random.randint(0,10)
+        a3=random.randint(0,10)
+        a4=random.randint(0,10)
+        a5=random.randint(0,10)
+        a6=random.randint(0,10)
+        a7=random.randint(0,10)
+        a8=random.randint(0,10)
+        a9=random.randint(0,10)
+        a10=random.randint(0,10)
+        a11=random.randint(0,10)
         
     
 
@@ -840,7 +853,7 @@ detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
 mpu_thread=threading.Thread(target=main)
-ethernet_thread=threading.Thread(target=process_value)
+ethernet_thread=threading.Thread(target=printx)
 
 
 app = QApplication(sys.argv)
