@@ -7,8 +7,7 @@ Created on Sun Apr  1 16:28:50 2018
 
 from PyQt5 import QtCore, QtGui,QtWidgets ,uic
 from PyQt5.QtWidgets import QApplication,QWidget,QLineEdit,QApplication,QMainWindow,QPushButton,QMessageBox
-
-
+import random
 import sys
 import cv2
 import numpy as np
@@ -30,7 +29,7 @@ m=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
-ser = serial.Serial('COM1',9600, timeout=1)
+#ser = serial.Serial('COM1',9600, timeout=1)
 
 ax = ay = az = 0.0
 #yaw_mode = False
@@ -535,19 +534,19 @@ def printx():
     global l
     global m
     while(running1):
-        data = ser.readline()
-        data = data.decode('utf-8')
-        Data=data.split(',')
-        x=float(Data[0])
-        i=x
-        y=float(Data[1])
-        j=y
-        z=float(Data[2])
-        k=z
-        a=float(Data[3])
-        l=a
-        b=float(Data[4])
-        m=b
+        #data = ser.readline()
+        #data = data.decode('utf-8')
+        #Data=data.split(',')
+        #x=float(Data[0])
+        i=random.randint(0,10)
+        #y=float(Data[1])
+        j=random.randint(0,10)
+        #z=float(Data[2])
+        k=random.randint(0,10)
+        #a=float(Data[3])
+        l=random.randint(0,10)
+        #b=float(Data[4])
+        m=random.randint(0,10)
         print("k")
         print(k)
         print("l")
