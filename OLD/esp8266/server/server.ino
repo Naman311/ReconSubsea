@@ -31,4 +31,5 @@ void setup() {
 void loop() {
   // Check if a client has connected. On first connection switch on the Solenoid on next switch off.
   server.handleClient();
+  Serial.println(WiFi.softAPIP());
 }

@@ -7,8 +7,7 @@ Created on Sun Apr  1 16:28:50 2018
 
 from PyQt5 import QtCore, QtGui,QtWidgets ,uic
 from PyQt5.QtWidgets import QApplication,QWidget,QLineEdit,QApplication,QMainWindow,QPushButton,QMessageBox
-
-
+import random
 import sys
 import cv2
 import numpy as np
@@ -30,7 +29,7 @@ m=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
-ser = serial.Serial('COM1',9600, timeout=1)
+#ser = serial.Serial('COM1',9600, timeout=1)
 
 ax = ay = az = 0.0
 #yaw_mode = False
@@ -128,7 +127,7 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-
+    global k,l,m
     # request data by sending a dot
 
     #while not line_done:
@@ -179,7 +178,7 @@ def main():
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -363,7 +362,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(0)
 
 ###################################################################################################
 class ContourWithData():
@@ -502,7 +501,7 @@ running = False
 running1 = False
 
 capture_thread = None
-form_class = uic.loadUiType("simple1.ui")[0]
+form_class = uic.loadUiType("simple111.ui")[0]
 q = Queue()
 i=0
 j=0
@@ -535,19 +534,19 @@ def printx():
     global l
     global m
     while(running1):
-        data = ser.readline()
-        data = data.decode('utf-8')
-        Data=data.split(',')
-        x=int(Data[0])
-        i=x
-        y=int(Data[1])
-        j=y
-        z=int(Data[2])
-        k=z
-        a=int(Data[3])
-        l=a
-        b=int(Data[4])
-        m=b
+        #data = ser.readline()
+        #data = data.decode('utf-8')
+        #Data=data.split(',')
+        #x=float(Data[0])
+        i=random.randint(0,10)
+        #y=float(Data[1])
+        j=random.randint(0,10)
+        #z=float(Data[2])
+        k=random.randint(0,10)
+        #a=float(Data[3])
+        l=random.randint(0,10)
+        #b=float(Data[4])
+        m=random.randint(0,10)
         print("k")
         print(k)
         print("l")
@@ -655,8 +654,14 @@ class MyWindowClass(QMainWindow, form_class):
     def update_lcd(self):
         global i
         global j
+        global k
+        global l
+        global m
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
+        self.lcdNumber_3.display(k)
+        self.lcdNumber_4.display(l)
+        self.lcdNumber_5.display(m)
     
         
     def update_frame(self):

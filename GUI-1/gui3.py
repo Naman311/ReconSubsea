@@ -8,7 +8,7 @@ Created on Sun Apr  1 16:28:50 2018
 from PyQt5 import QtCore, QtGui,QtWidgets ,uic
 from PyQt5.QtWidgets import QApplication,QWidget,QLineEdit,QApplication,QMainWindow,QPushButton,QMessageBox
 
-
+import random
 import sys
 import cv2
 import numpy as np
@@ -27,10 +27,12 @@ check=0
 k=0
 l=0
 m=0
+
+a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
-#ser = serial.Serial('COM1',9600, timeout=1)
+#ser = serial.Serial('COM12',9600, timeout=1)
 
 ax = ay = az = 0.0
 #yaw_mode = False
@@ -128,7 +130,7 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-
+    global k,l,m
     # request data by sending a dot
 
     #while not line_done:
@@ -139,9 +141,9 @@ def read_data():
         #az = float(angles[0])
         #ay = float(angles[1])
         #ax = float(angles[2])
-    az=k
-    ay=l
-    ax=m
+    az=a6
+    ay=a7
+    ax=a8
     line_done = 1 
 
 def main():
@@ -173,13 +175,14 @@ def main():
     print ("fps:  %d" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
     ser.close()
 
+
 ###################################################################################################################################
 ###################################################################################################################################
 
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -363,7 +366,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(0)
 
 ###################################################################################################
 class ContourWithData():
@@ -499,7 +502,8 @@ def detect():
 #################################################################################################################################
 
 
-a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
+
+'''
 
 ###################################################################################################################################
                                                         #Ethernet
@@ -571,45 +575,65 @@ def get():
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 def process_value():
+    b1=b2=b3=b4=b5=b6=b7=b8=b9=b10=b11=0
     while True:
-        global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
+        
         get()
         sent=sock.sendto(bytes(get(),"utf-8"),(server_address))
-        a1=a1+1
-        a2=a2+1
-        a3=a3+1
-        a4=a4+1
-        a5=a5+1
-        a6=a6+1
-        a7=a7+1
-        a8=a8+1
-        a9=a9+1
-        a10=a10+1
-        a11=a11+1
-        print(a1)
-        
-        time.sleep(0.5)
-        
-    '''
-    while True:    
-    # Send data
-        get()
-        sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
-    #while True:
         try:
         # Receive response
-            data, server = sock.recvfrom(4096)
-            print(data.decode())
+            #data = ser.readline()
+            #data = data.decode('utf-8')
+            #Data=data.split(',')
+            #data, server = sock.recvfrom(4096)
+            #print(data.decode())
+            #data=data.decode()
+            #string=data.split(',')
+            #b1=int(string[0])
+            #b2=int(string[1])
+            #b3=int(string[2])
+            #b4=int(string[3])
+            #b5=int(string[4])
+            #b6=int(string[5])
+            #b7=int(string[6])
+            #b8=int(string[7])
+            #b9=int(string[8])
+            #b10=int(string[9])
+            #b11=int(string[10])
+            global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
+            a1=random.randint(0,10)
+            a2=random.randint(0,10)
+            a3=random.randint(0,10)
+            a4=random.randint(0,10)
+            a5=random.randint(0,10)
+            a6=random.randint(0,10)
+            a7=random.randint(0,10)
+            a8=random.randint(0,10)
+            a9=random.randint(0,10)
+            a10=random.randint(0,10)
+            a11=random.randint(0,10)
         except:
         #print("Data is passed")
             pass
+        
+        #print(a1)
+        
+        #time.sleep(0.1)
+        
+    
+    #while True:    
+    # Send data
+        #get()
+        #sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+    #while True:
+        
     #time.sleep(0.1)
 
-    '''
+    
 ###################################################################################################################################
 ###################################################################################################################################
 
-
+'''
 
 
 running = False
@@ -669,8 +693,20 @@ def printx():
         print("m")
         print(m)
 '''        
-        
-        
+def printx():
+    global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
+    while 1:
+        a1=random.randint(0,10)
+        a2=random.randint(0,10)
+        a3=random.randint(0,10)
+        a4=random.randint(0,10)
+        a5=random.randint(0,10)
+        a6=random.randint(0,10)
+        a7=random.randint(0,10)
+        a8=random.randint(0,10)
+        a9=random.randint(0,10)
+        a10=random.randint(0,10)
+        a11=random.randint(0,10)
         
     
 
@@ -817,7 +853,7 @@ detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
 mpu_thread=threading.Thread(target=main)
-ethernet_thread=threading.Thread(target=process_value)
+ethernet_thread=threading.Thread(target=printx)
 
 
 app = QApplication(sys.argv)
