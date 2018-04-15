@@ -128,7 +128,7 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-
+    global k,l,m
     # request data by sending a dot
 
     #while not line_done:
@@ -538,15 +538,15 @@ def printx():
         data = ser.readline()
         data = data.decode('utf-8')
         Data=data.split(',')
-        x=int(Data[0])
+        x=float(Data[0])
         i=x
-        y=int(Data[1])
+        y=float(Data[1])
         j=y
-        z=int(Data[2])
+        z=float(Data[2])
         k=z
-        a=int(Data[3])
+        a=float(Data[3])
         l=a
-        b=int(Data[4])
+        b=float(Data[4])
         m=b
         print("k")
         print(k)
@@ -655,8 +655,14 @@ class MyWindowClass(QMainWindow, form_class):
     def update_lcd(self):
         global i
         global j
+        global k
+        global l
+        global m
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
+        self.lcdNumber_3.display(k)
+        self.lcdNumber_4.display(l)
+        self.lcdNumber_5.display(m)
     
         
     def update_frame(self):
