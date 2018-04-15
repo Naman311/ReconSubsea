@@ -32,7 +32,7 @@ a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
-#ser = serial.Serial('COM1',9600, timeout=1)
+ser = serial.Serial('COM12',9600, timeout=1)
 
 ax = ay = az = 0.0
 #yaw_mode = False
@@ -581,9 +581,12 @@ def process_value():
         sent=sock.sendto(bytes(get(),"utf-8"),(server_address))
         try:
         # Receive response
-            data, server = sock.recvfrom(4096)
-            print(data.decode())
-            data=data.decode()
+            data = ser.readline()
+            data = data.decode('utf-8')
+            #Data=data.split(',')
+            #data, server = sock.recvfrom(4096)
+            #print(data.decode())
+            #data=data.decode()
             string=data.split(',')
             b1=int(string[0])
             b2=int(string[1])
