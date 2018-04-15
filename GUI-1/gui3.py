@@ -27,6 +27,7 @@ check=0
 k=0
 l=0
 m=0
+
 a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
 ###################################################################################################################################
                                                     #MPU
@@ -63,7 +64,6 @@ def drawText(position, textString):
 
 def draw():
     global rquad
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
     
     glLoadIdentity()
@@ -131,7 +131,6 @@ def read_data():
     ax = ay = az = 0.0
     line_done = 0
     global a6,a7,a8
-
     # request data by sending a dot
 
     #while not line_done:
@@ -149,25 +148,17 @@ def read_data():
 
 def main():
     #global yaw_mode
-    print("x")
+
     video_flags = OPENGL|DOUBLEBUF
-    print("one")
+    
     pygame.init()
-    print("two")
     screen = pygame.display.set_mode((480,320), video_flags)
-    print("three")
     pygame.display.set_caption("Press Esc to quit, z toggles yaw mode")
-    print("four")
     resize(480,320)
-    print("five")
     init()
-    print("six")
     frames = 0
-    print("seven")
     ticks = pygame.time.get_ticks()
-    print("eight")    
     while 1:
-        print("zzzzzzzzzzzzzzzzzzzzzz")
         event = pygame.event.poll()
         """if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
             break       
@@ -585,6 +576,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 def process_value():
     b1=b2=b3=b4=b5=b6=b7=b8=b9=b10=b11=0
     while True:
+        
         get()
         sent=sock.sendto(bytes(get(),"utf-8"),(server_address))
         try:
