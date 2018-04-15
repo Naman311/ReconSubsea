@@ -178,7 +178,7 @@ def main():
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -362,7 +362,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(0)
 
 ###################################################################################################
 class ContourWithData():
@@ -501,7 +501,7 @@ running = False
 running1 = False
 
 capture_thread = None
-form_class = uic.loadUiType("simple1.ui")[0]
+form_class = uic.loadUiType("simple111.ui")[0]
 q = Queue()
 i=0
 j=0
