@@ -72,17 +72,16 @@ def get():
     #print("x")
     #sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
     #while True:
-    #try:
+    try:
         # Receive response
     #print("try")
-    #data, server = sock.recvfrom(4096)
+        data, server = sock.recvfrom(4096)
     #print('y')
-    #print(data.decode())
-    #except:
-    '''
-        print("Data is passed")
+        print(data.decode())
+    except:
+        #print("Data is passed")
         pass
-    '''
+    
     #time.sleep(0.1)
 
 ###################################################################################################################

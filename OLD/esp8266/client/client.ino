@@ -2,6 +2,8 @@
 #include <WiFiClient.h> 
 
 const char* host = "192.168.4.1"; //Ip of the Host(Our Case esp8266-01 as server. Its the ip of the esp8266-01 as Access point)
+              WiFiClient client;
+              const int httpPort = 80;
 
 void setup() {
   Serial.begin(115200);          //Baud Rate for Communication
@@ -19,17 +21,15 @@ void setup() {
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());             //Check out the Ip assigned by the esp12E
+                Serial.print("connecting to ");
+              Serial.println(host);
+              // Use WiFiClient class to create TCP connections
+
 }
 
 void loop() {
 
-         if(digitalRead(13)==1){                      //Check out if Pin D7/13 is high. If high activate 
-                                                      //the led connected to esp-01. On next press deactivate it. 
-              Serial.print("connecting to ");
-              Serial.println(host);
-              // Use WiFiClient class to create TCP connections
-              WiFiClient client;
-              const int httpPort = 80;
+
                 if (!client.connect("192.168.4.1", httpPort)) {
                   Serial.println("connection failed");
                   return;
@@ -44,9 +44,9 @@ void loop() {
                 String line = client.readStringUntil('\r');
                 Serial.print(line);
               }
+              delay(1000);
               //Close the Connection. Automatically
-              Serial.println();
-              Serial.println("closing connection");             
-            }//End if
+              //Serial.println();
+              //Serial.println("closing connection");             
 
 }//End Loop

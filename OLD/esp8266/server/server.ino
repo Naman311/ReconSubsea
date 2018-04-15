@@ -1,17 +1,19 @@
- #include <ESP8266WiFi.h>
+#include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 
 const char* ssid = "ESP_D54736";  // SSID of esp8266
 //const char* password = "123";   //
-bool toggle=0;                  //Variable to switch on and off the solenoid
+//bool toggle=0;                  //Variable to switch on and off the solenoid
+
 ESP8266WebServer server(80);    //Specify port for TCP connection
 
-void handleRoot() {
-  toggle=!toggle;               //Toggling Led Variable
-    digitalWrite(2,toggle);     //Toggle Led
-        String s = "Naman Gupta\n";  
-        server.send(200,"text/html",s);      //Reply to the client
+void handleRoot() 
+{
+  //toggle=!toggle;               //Toggling Led Variable
+  //digitalWrite(2,toggle);     //Toggle Led
+  String s = "Naman Gupta\n";  
+  server.send(200,"text/html",s);      //Reply to the client
 }
 
 void setup() {
@@ -26,10 +28,21 @@ void setup() {
   server.on("/Led", handleRoot);           //Checking client connection
   server.begin();                       // Start the server
   Serial.println("Server started");
+ 
+ 
+  /*server.on("/other", []() {   //Define the handling function for the path
+ 
+    server.send(200, "text / plain", "Other URL");
+ 
+  });
+ 
+  server.on("/", handleRootPath);    //Associate the handler function to the path
+  server.begin();                    //Start the server
+  Serial.println("Server listening");*/
 }
 
 void loop() {
   // Check if a client has connected. On first connection switch on the Solenoid on next switch off.
   server.handleClient();
-  Serial.println(WiFi.softAPIP());
+  //Serial.println(WiFi.softAPIP());
 }
