@@ -1,6 +1,6 @@
 import time
 import pygame
-#import socket
+import socket
 import sys
 
 from OpenGL.GL import *
@@ -8,10 +8,11 @@ from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
 import serial
+import random
 
 # Create a UDP socket
 
-#server_address = ('169.254.234.100', 5000)
+server_address = ('169.254.234.100', 5000)
 # Initializing controller
 pygame.init()
 j = pygame.joystick.Joystick(0)
@@ -65,6 +66,7 @@ def get():
     s=str(out).strip('[]')
     print(s)
     return s
+
 #sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 #while True:    
     # Send data
@@ -72,21 +74,21 @@ def get():
     #print("x")
     #sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
     #while True:
-    try:
+    #try:
         # Receive response
     #print("try")
-        data, server = sock.recvfrom(4096)
+        #data, server = sock.recvfrom(4096)
     #print('y')
-        print(data.decode())
-    except:
+        #print(data.decode())
+    #except:
         #print("Data is passed")
-        pass
+        #pass
     
     #time.sleep(0.1)
 
 ###################################################################################################################
 
-ser = serial.Serial('COM1',9600, timeout=1)
+#ser = serial.Serial('COM1',9600, timeout=1)
 
 ax = ay = az = 0.0
 #yaw_mode = False
@@ -188,18 +190,26 @@ def read_data():
     # request data by sending a dot
 
     #while not line_done:
-    line = ser.readline().strip()
-    b=line.decode('utf-8')
-    angles = b.split(",")
-    if len(angles) == 3:    
-        ax = float(angles[0])
-        ay = float(angles[1])
-        az = float(angles[2])
-        line_done = 1 
+    #line = ser.readline().strip()
+    #b=line.decode('utf-8')
+    #angles = b.split(",")
+    #if len(angles) == 3:    
+    #ax = float(angles[0])
+    #ay = float(angles[1])
+    #az = float(angles[2])
+    ax = random.randint(0,10);
+    ay = random.randint(0,10);
+    az = random.randint(0,10);
+    line_done = 1 
 
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 def main():
     #global yaw_mode
+    #try:
 
+    #except socket.error:
+        #print ("Error creating socket")
+        #sys.exit(1)
     video_flags = OPENGL|DOUBLEBUF
     
     pygame.init()
@@ -222,7 +232,16 @@ def main():
       
         pygame.display.flip()
         frames = frames+1
-        get()
+        sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+        try:
+        # Receive response
+            data, server = sock.recvfrom(4096)
+    #print('y')
+            print(data.decode())
+        except:
+        #print("Data is passed")
+            pass
+    
         print ("fps:  %d" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
     ser.close()
 

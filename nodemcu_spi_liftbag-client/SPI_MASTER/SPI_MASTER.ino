@@ -95,14 +95,14 @@ void loop() {
   delay(2000);
   if(incomingByte==49)
   {
-    send("one");
+    send("1");
   }
   else if(incomingByte==50)
   {
-    send("two"); 
+    send("2"); 
   }
   else if(incomingByte==51)
   {
-    send("three"); 
+    send("3"); 
   }
 }

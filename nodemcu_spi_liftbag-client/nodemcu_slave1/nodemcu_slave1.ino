@@ -12,14 +12,13 @@
 #include "SPISlave.h"
 
 const char* host = "192.168.4.1"; //Ip of the Host(Our Case esp8266-01 as server. Its the ip of the esp8266-01 as Access point)
-const char* host2 = "";
-
 WiFiClient client;
 const int httpPort = 80;
 
-int stat=0;
+int curr=0;
+int stat=-1;
 int flag=0;
-String prev_data="Zero";
+
 // function to connect to server
 void conn_cli()
 {
@@ -34,28 +33,9 @@ void conn_cli()
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());             //Check out the Ip assigned by the esp12E
   Serial.print("connecting to ");
-      Serial.println(host);
-      // Use WiFiClient class to create TCP connections
-      if (!client.connect("192.168.4.1", httpPort)) 
-      {
-        Serial.println("connection failed");
-        return;
-      }    
+  Serial.println(host); 
 }
 
-void conn_obs()
-{
-  WiFi.begin("");      //Connect to this SSID. In our case esp-01 SSID.  
-  while (WiFi.status() != WL_CONNECTED) {      //Wait for getting IP assigned by Access Point/ DHCP. 
-                                              //Our case  esp-01 as Access point will assign IP to nodemcu esp12E.
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());             //Check out the Ip assigned by the esp12E
-}
 ////////////
 
 void setup() {
@@ -78,27 +58,38 @@ void setup() {
   {
     String message = String((char *)data);
     (void) len;
-    if (message.equals("one") && message!=prev_data) 
+    if(message.equals("1"))
+    {
+      curr=1;
+    }
+    else if(message.equals("2"))
+    {
+      curr=2;
+    }
+    else if(message.equals("3"))
+    {
+      curr=3;
+    }
+    else
+    {
+      curr=0;
+    }
+    if (curr==1 && stat!=1) 
     {
       stat=1;
-      // code to get data from server
-      
       SPISlave.setData("one initiated");
-      prev_data=message;
     } 
-    else if (message.equals("two") && message!=prev_data) 
+    else if (curr==2 && stat!=2) 
     {
       stat=2;
       SPISlave.setData("two initiated");
-      prev_data=message;
     } 
-    else if(message.equals("three") && message!=prev_data) 
+    else if(curr==3 && stat!=3) 
     {
       stat=3;
       SPISlave.setData("three initiated");
-      prev_data=message;
     }
-    else if(!message.equals("one") || !message.equals("two") || !message.equals("three"))
+    else if(curr==0)
     {
       Serial.printf("Question:%s||\n",(char *)data);
     }
@@ -116,8 +107,8 @@ void setup() {
   // Can be used to exchange small data or status information
   SPISlave.onStatus([](uint32_t data)
   {
-    Serial.printf("Status: %u\n", data);
-    SPISlave.setStatus(millis()); //set next status
+    //Serial.printf("Status: %u\n", data);
+    //SPISlave.setStatus(millis()); //set next status
   });
 
   // The master has read the status register
@@ -144,23 +135,26 @@ void loop()
     {
       flag=1;
       conn_cli();
-      //Request to server to activate the led
-      int writew=client.print(String("GET ") +"/Led"+" HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");         
-      Serial.print("Written");
-      Serial.println(writew);
-      
-      delay(10);
-      //Read all the lines of the reply from server and print them to Serial Monitor etc
-      while(client.available())
+      while(stat==1)
       {
-        Serial.print("MA ki chut ");
-        String line = client.readStringUntil('\r');
-        Serial.print(line);
-      }
-      //Close the Connection. Automatically
-      //Serial.println();
-      //Serial.println("closing connection");             
-    }//End if
+        // Use WiFiClient class to create TCP connections
+        if (!client.connect("192.168.4.1", httpPort)) 
+        {
+          Serial.println("connection failed");
+          flag=0;
+          return;
+        }   
+        //Request to server to activate the led
+        client.print(String("GET ") +"/req"+" HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");         
+        delay(10);
+        //Read all the lines of the reply from server and print them to Serial Monitor etc
+        while(client.available())
+        {
+          String line = client.readStringUntil('\r');
+          Serial.print(line);
+        }
+      }           
+    }
     else if(stat==2 && flag!=2)
     {
       flag=2;
@@ -171,29 +165,25 @@ void loop()
     {
       flag=3;
       conn_cli();
-      Serial.print("connecting to ");
-      Serial.println(host);
       // Use WiFiClient class to create TCP connections
-      WiFiClient client;
-      const int httpPort = 80;
-      if (!client.connect("192.168.4.1", httpPort)) 
+      while(stat==3)
       {
-        Serial.println("connection failed");
-        return;
-      }    
-      //Request to server to activate the led
-      client.print(String("GET ") +"/Led"+" HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
-      delay(10);
-      // Read all the lines of the reply from server and print them to Serial Monitor etc
-      while(client.available())
-      {
-        String line = client.readStringUntil('\r');
-        Serial.print(line);
-      }
-      //Close the Connection. Automatically
-      //Serial.println();
-      //Serial.println("closing connection");
+        if (!client.connect("192.168.4.1", httpPort)) 
+        {
+          Serial.println("connection failed");
+          flag=0;
+          return;
+        }   
+        //Request to server to activate the led
+        client.print(String("GET ") +"/req"+" HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");         
+        delay(10);
+        //Read all the lines of the reply from server and print them to Serial Monitor etc
+        while(client.available())
+        {
+          String line = client.readStringUntil('\r');
+          Serial.print(line);
+        }
+      }     
     }
-    
 }
 
