@@ -30,9 +30,25 @@ void setupServer()
 void endConnection()
 {
   WiFi.disconnect();                               //Ends wiFi access point.
-  delay(5000);
+  //delay(4000);
   setupServer();
 }
+
+/*int getData()
+{
+  char c=Serial.read();
+  String s;
+  s+=c;
+  int i=s.toInt();
+  Serial.println("Sending"+String(i));
+  return i;
+}*/
+
+int getStat()
+{
+  return 5;
+}
+
 void setup() {
       Serial.begin(115200);
       //Serial.println("Serial monitor started");
@@ -76,22 +92,27 @@ void loop() {
             }
             else ss=ss+StrBuffer[i];
           }*/
+          Serial.print("Received:");
           Serial.println(buf);
-          if(buf==0)ss="1";
-          else {
-              endConnection();
+          if(buf==1){
+              //endConnection();
               break;
+              }
+          else {
+              int dataa=getStat();
+              ss=String(dataa)+"\r";
            }
           /*if(b[1]==0){ss+="Ron";}else {ss+="Roff";}
           */ 
           //-----------------------------------------------------------------          
           //flag=0;
-          //Serial.println("\nSending this to client:"+ss);
+          Serial.println("\nSending this to client:"+ss);
           client.print(ss);                                                     //Sending back status in string to client
           ss="";
           //if(flag==1)break;
           delay(2);
           //break;
+          delay(300);
         }
            
         
@@ -101,5 +122,6 @@ void loop() {
       Serial.println("Client disconnected :(");
       endConnection();                                                        //ending wifi connection for the nodeMCU for 5 sec
       }
+      
   }
 

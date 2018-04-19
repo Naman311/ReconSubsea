@@ -37,9 +37,7 @@ void loop()
       return;
   }   
   //Request to server to activate the led
-  client.print(String("GET ") +"/req"+" HTTP/1.1\r\n" + 
-               "Host: " + host + "\r\n" + 
-               "Connection: close\r\n\r\n");         
+  client.print("Give Data");         
   delay(10);
   // Read all the lines of the reply from server and print them to Serial Monitor etc
   while(client.available())
@@ -53,4 +51,4 @@ void loop()
   //Close the Connection. Automatically
   //Serial.println();
   //Serial.println("closing connection");             
-}//End Loop
+} //End Loop
