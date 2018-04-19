@@ -2,8 +2,9 @@
 #include <WiFiClient.h> 
 
 const char* host = "192.168.4.1"; //Ip of the Host(Our Case esp8266-01 as server. Its the ip of the esp8266-01 as Access point)
-              WiFiClient client;
-              const int httpPort = 80;
+WiFiClient client;
+const int httpPort = 80;
+
 
 void setup() {
   Serial.begin(115200);          //Baud Rate for Communication
@@ -21,32 +22,33 @@ void setup() {
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());             //Check out the Ip assigned by the esp12E
-                Serial.print("connecting to ");
+             Serial.print("connecting to ");
               Serial.println(host);
               // Use WiFiClient class to create TCP connections
 
+
 }
 
-void loop() {
+void loop() 
+{
+  if(!client.connect("192.168.4.1", httpPort))
+  {
+      Serial.println("connection failed");
+      return;
+  }   
+  //Request to server to activate the led
+  client.print("Give Data");         
+  delay(10);
+  // Read all the lines of the reply from server and print them to Serial Monitor etc
+  while(client.available())
+  {
+    String line = client.readStringUntil('\r');
+    Serial.print(line);
+  }
+  //delay(5000);
 
-
-                if (!client.connect("192.168.4.1", httpPort)) {
-                  Serial.println("connection failed");
-                  return;
-                   }    
-              //Request to server to activate the led
-              client.print(String("GET ") +"/Led"+" HTTP/1.1\r\n" + 
-                           "Host: " + host + "\r\n" + 
-                           "Connection: close\r\n\r\n");         
-              delay(10);
-              // Read all the lines of the reply from server and print them to Serial Monitor etc
-              while(client.available()){
-                String line = client.readStringUntil('\r');
-                Serial.print(line);
-              }
-              delay(1000);
-              //Close the Connection. Automatically
-              //Serial.println();
-              //Serial.println("closing connection");             
-
-}//End Loop
+  //delay(2000);
+  //Close the Connection. Automatically
+  //Serial.println();
+  //Serial.println("closing connection");             
+} //End Loop

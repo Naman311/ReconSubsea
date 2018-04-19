@@ -127,7 +127,7 @@ void loop() {
   Serial.println("Connecting to " + String(host));
   if (client.connect(host, 80))
   {
-    //Serial.println("Sending Request");
+    Serial.println("Sending Request");
     client.print(String("Get /") + " HTTP/1.1\r\n" +
                  "Host: " + String(host) + "\r\n" +
                  "Connection: close\r\n" + "\r\n");

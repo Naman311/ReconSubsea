@@ -60,13 +60,8 @@ void setup() {
 }
 String prepareHtmlPage()
 {
-  String htmlPage=String("HTTP/1.1 200 OK\r\n")+"Content-Type: text/html\r\n"
-                    +"Connection: close\r\n"
-                    +"<!DOCTYPE HTML>"+
-                    "<html>"+
-                    "<h1>MATE 2018 SEISMOGRAPH STATUS</h1>"
-                    +"<p>Voltage=4.995 Xangle="+String(average2)+" Yangle="+String(average3)
-                    +" Count=0</p>"+"<p>DATA:0,4.4,-4.3,0,0,6.8,-7,0,0,1.6,-1.6,0,0,6.3,-6.4,0</p>"
+  String htmlPage=  "<!DOCTYPE HTML><html><h1>MATE 2018 SEISMOGRAPH STATUS</h1><p>Voltage=4.995 Xangle="+String(average2)+" Yangle="+String(average3)
+                    +" Count=0</p>"+"<p>DATA: 0,4.4,-4.3,0,0,6.8,-7,0,0,1.6,-1.6,0,0,6.3,-6.4,0</p>"
                     +"</body></html>\r\n";
   return htmlPage;
 }
@@ -75,23 +70,28 @@ void loop() {
       
       //adaFruit();
       WiFiClient client=server.available();
-      Serial.println(client);
+      //Serial.println(client);
       Serial.println(WiFi.softAPIP());
-      if(client)  {
+        
           while(client.connected())
           {
+            Serial.println("Connected\n\n");
             if(client.available())
             {
               String line=client.readStringUntil('\r');
-              if(line.length()==1&&line[0]=='\n')
+              Serial.println(line);
+              if(line.length()==1)
               {
                 client.println(prepareHtmlPage());
                 break;
               }
+             
             }
+             //client.println(prepareHtmlPage());
+               // break;
           }
         
-      }
-      delay(20);
+      
+      delay(10);
       client.stop();
 }
