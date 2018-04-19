@@ -26,6 +26,12 @@ check=0
 k=0
 l=0
 m=0
+z1=0
+z2=0
+z3=0
+z4=0
+z5=0
+z6=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
@@ -178,7 +184,7 @@ def main():
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -362,7 +368,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(0)
+cap=cv2.VideoCapture(1)
 
 ###################################################################################################
 class ContourWithData():
@@ -533,26 +539,37 @@ def printx():
     global k
     global l
     global m
+    global z1,z2,z3,z4,z5,z6
+    
     while(running1):
         #data = ser.readline()
         #data = data.decode('utf-8')
         #Data=data.split(',')
         #x=float(Data[0])
-        i=random.randint(0,10)
+        i=random.uniform(0,100)
         #y=float(Data[1])
-        j=random.randint(0,10)
+        j=random.uniform(0,100)
         #z=float(Data[2])
-        k=random.randint(0,10)
+        k=random.uniform(0,100)
         #a=float(Data[3])
-        l=random.randint(0,10)
+        l=random.uniform(0,100)
         #b=float(Data[4])
-        m=random.randint(0,10)
-        print("k")
-        print(k)
-        print("l")
-        print(l)
-        print("m")
-        print(m)
+        m=random.uniform(0,100)
+
+        z1=random.uniform(0,100)
+        z2=random.uniform(0,100)
+        z3=random.uniform(0,100)
+        z4=random.uniform(0,100)
+        z5=random.uniform(0,100)
+        z6=random.uniform(0,100)
+        
+        #print("k")
+        #print(k)
+        #print("l")
+        #print(l)
+        #print("m")
+        #print(m)
+        time.sleep(1)
         
         
         
@@ -657,11 +674,18 @@ class MyWindowClass(QMainWindow, form_class):
         global k
         global l
         global m
+        global z1,z2,z3,z4,z5,z6
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
         self.lcdNumber_3.display(k)
         self.lcdNumber_4.display(l)
         self.lcdNumber_5.display(m)
+        self.lcdNumber_5.display(z1)
+        self.lcdNumber_5.display(z2)
+        self.lcdNumber_5.display(z3)
+        self.lcdNumber_5.display(z4)
+        self.lcdNumber_5.display(z5)
+        self.lcdNumber_5.display(z6)
     
         
     def update_frame(self):
@@ -691,7 +715,7 @@ class MyWindowClass(QMainWindow, form_class):
 
 
 
-capture_thread = threading.Thread(target=grab, args = (0, q, 1920, 1080, 30))
+capture_thread = threading.Thread(target=grab, args = (1, q, 1920, 1080, 30))
 printer_thread = threading.Thread(target=printx)
 detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)

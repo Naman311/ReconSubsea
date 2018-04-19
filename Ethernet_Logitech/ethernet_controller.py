@@ -11,7 +11,7 @@ import serial
 
 # Create a UDP socket
 
-#server_address = ('169.254.234.100', 5000)
+server_address = ('169.254.234.100', 5000)
 # Initializing controller
 pygame.init()
 j = pygame.joystick.Joystick(0)
@@ -223,7 +223,12 @@ def main():
       
         pygame.display.flip()
         frames = frames+1
-        get()
+        sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+        try:
+            data, server = sock.recvfrom(4096)
+            print(data.decode())
+        except:
+            pass
         print ("fps:  %d" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
     ser.close()
 
