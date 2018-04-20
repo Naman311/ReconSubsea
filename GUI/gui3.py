@@ -32,6 +32,7 @@ z3=0
 z4=0
 z5=0
 z6=0
+z7=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
@@ -539,7 +540,7 @@ def printx():
     global k
     global l
     global m
-    global z1,z2,z3,z4,z5,z6
+    global z1,z2,z3,z4,z5,z6,z7
     
     while(running1):
         #data = ser.readline()
@@ -562,6 +563,7 @@ def printx():
         z4=random.uniform(0,100)
         z5=random.uniform(0,100)
         z6=random.uniform(0,100)
+        z7=random.uniform(0,100)
         
         #print("k")
         #print(k)
@@ -686,6 +688,7 @@ class MyWindowClass(QMainWindow, form_class):
         self.lcdNumber_9.display(z4)
         self.lcdNumber_10.display(z5)
         self.lcdNumber_11.display(z6)
+        self.lcdNumber_12.display(z7)
     
         
     def update_frame(self):
