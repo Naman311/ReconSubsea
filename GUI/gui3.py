@@ -680,12 +680,12 @@ class MyWindowClass(QMainWindow, form_class):
         self.lcdNumber_3.display(k)
         self.lcdNumber_4.display(l)
         self.lcdNumber_5.display(m)
-        self.lcdNumber_5.display(z1)
-        self.lcdNumber_5.display(z2)
-        self.lcdNumber_5.display(z3)
-        self.lcdNumber_5.display(z4)
-        self.lcdNumber_5.display(z5)
-        self.lcdNumber_5.display(z6)
+        self.lcdNumber_6.display(z1)
+        self.lcdNumber_7.display(z2)
+        self.lcdNumber_8.display(z3)
+        self.lcdNumber_9.display(z4)
+        self.lcdNumber_10.display(z5)
+        self.lcdNumber_11.display(z6)
     
         
     def update_frame(self):
