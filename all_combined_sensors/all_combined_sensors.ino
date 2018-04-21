@@ -16,6 +16,7 @@
 14.LEFT CLICK
 15.RIGHT CLICK
 */
+const float SensorOffset = 39;
 
 // Ethernet header
 #include <Ethernet.h> //Load Ethernet Library
@@ -196,7 +197,7 @@ int packetSize; //Size of Packet
 EthernetUDP Udp; //Define UDP Object
 
 // Function to convert sensors output to string
-String converstion(int t1,int t2,int t3,int t4,int v1,long y,long p,long r,long temp,long humidity,long internal_pressure){
+String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,float temp,float humidity,float internal_pressure){
   String result;
   result=t1;
   result+=',';
@@ -366,14 +367,14 @@ Wire.begin();
   hdcSensor.setHumidityRes(HDC1050::H_RES_8);
   hdcSensor.updateConfigRegister();
 /////////////////////////////////////////////////////////////////////
-
+/*
 ///////////////////////////////pressure sensor///////////////////////////////////////
  Serial.begin(9600);          
   pinMode(spi_ss, OUTPUT);     
   digitalWrite(spi_ss, HIGH);  
   SPI.begin();    
 /////////////////////////////////////////////////////////////////////////////////////
-
+*/
 ///////////////////////////MPU6050/////////////////////////////////////////////////////////////
  // join I2C bus (I2Cdev library doesn't do this automatically)
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -450,7 +451,7 @@ Wire.begin();
 
     // configure LED for output
     pinMode(LED_PIN, OUTPUT);
-//delay(30000);
+delay(30000);
 
 ///////////////////////////////////////////////////////////////////////////////////////////
   
@@ -479,34 +480,22 @@ Voltage = Voltage /1000;
 Current = (Voltage -2.5)/ 0.185; // Sensed voltage is converter to current
 
 //Serial.print(“\n Voltage Sensed (V) = “); // shows the measured voltage
-Serial.print(Voltage,2); // the ‘2’ after voltage allows you to display 2 digits after decimal point
+//Serial.print(Voltage,2); // the ‘2’ after voltage allows you to display 2 digits after decimal point
 //Serial.print(“\t Current (A) = “); // shows the voltage measured
-Serial.print(Current,2); // the ‘2’ after voltage allows you to display 2 digits after decimal point
+//Serial.print(Current,2); // the ‘2’ after voltage allows you to display 2 digits after decimal point
 
 //delay(1000);
 
 /////////////////////////////////////////////////////////////////////
 
 ////////////////////////////pressure sensor//////////////////////////////////
-  SPI.beginTransaction(SPISettings(1000, MSBFIRST, SPI_MODE2)); 
-//set speed bit format and clock/data polarity while starting SPI transaction
-  digitalWrite(spi_ss, LOW);
-  byte_0 = SPI.transfer(0); // to take the first 8 bits
-  byte_1 = SPI.transfer(0); //to take the second 8 bits
-  byte_2 = SPI.transfer(0);   //to take the third 8 bits
+    // read the input on analog pin 0:
+  float sensorValue = (analogRead(A0)-SensorOffset); //Do maths for calibration
+  // print out the value you read:
+  //Serial.print("Air Pressure: ");  
+  //Serial.print(sensorValue,2);
+  //Serial.println(" kPa");
   
-    
-
-  digitalWrite(spi_ss, HIGH);
-     
-  SPI.endTransaction();
-  spi_bytes=(byte_0*1000000+byte_1*1000+byte_2);
-  Serial.println(spi_bytes );
-  vo = vr* (float(spi_bytes) / 16777216.0); // converting to output voltage
-  Serial.println(vo);
-  float kpa = (vo-0.2)/4.5*700.0;
-  Serial.println(kpa+31.11); 
-  delay(1000);
 /////////////////////////////////////////////////////////////////////////////
  
 
@@ -575,13 +564,13 @@ flag=1;}
             mpu.dmpGetGravity(&gravity, &q);
             mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
             //Serial.print("ypr\t");
-            Serial.print(ypr[0] * 180/M_PI-sum1);
+            //Serial.print(ypr[0] * 180/M_PI-sum1);
             //Serial.print("\t");
-            Serial.print(",");
-            Serial.print(ypr[1] * 180/M_PI-sum2);
+            //Serial.print(",");
+            //Serial.print(ypr[1] * 180/M_PI-sum2);
             //Serial.print("\t");
-            Serial.print(",");
-            Serial.println(ypr[2] * 180/M_PI-sum3);
+            //Serial.print(",");
+            //Serial.println(ypr[2] * 180/M_PI-sum3);
             y=ypr[0] * 180/M_PI-sum1;
             p=ypr[1] * 180/M_PI-sum2;
             r=ypr[2] * 180/M_PI-sum3;
@@ -599,14 +588,39 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   //Serial.println(h);
 
 
-  internal_pressure = kpa+31.11;
+  internal_pressure = sensorValue,2;
   //y = random(10,50);
   //p = random(10,50);
   //r = random(10,50);
-  
+  int t5 = random(10,50);
+  int t6=random(10,50);
   v1 = random(30,48);
     
   t1++;t2++;t3++;t4++;
+  Serial.print(t1);
+  Serial.print(',');
+  Serial.print(t2);
+  Serial.print(',');
+  Serial.print(t3);
+  Serial.print(',');
+  Serial.print(t4);
+  Serial.print(',');
+  Serial.print(t5);
+  Serial.print(',');
+  Serial.print(y);
+  Serial.print(',');
+  Serial.print(p);
+  Serial.print(',');
+  Serial.print(r);
+  Serial.print(',');
+  Serial.print(temp);
+  Serial.print(',');
+  Serial.print(humidity);
+  Serial.print(',');
+  Serial.print(internal_pressure);
+  Serial.print(',');
+  Serial.println(t6);
+/*  
   String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure);
   packetSize = Udp.parsePacket(); //Read theh packetSize
   
@@ -623,14 +637,6 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
-  //delay(100);
+  //delay(100);*/
 }
-}void setup() {
-  // put your setup code here, to run once:
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
 }

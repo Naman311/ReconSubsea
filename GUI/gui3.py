@@ -21,7 +21,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
-#ser = serial.Serial('COM1', 9600)
+ser = serial.Serial('COM1', 9600)
 check=0
 k=0
 l=0
@@ -134,7 +134,7 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-    global k,l,m
+    global z1,z2,z3
     # request data by sending a dot
 
     #while not line_done:
@@ -145,9 +145,9 @@ def read_data():
         #az = float(angles[0])
         #ay = float(angles[1])
         #ax = float(angles[2])
-    az=k
-    ay=l
-    ax=m
+    az=z1
+    ay=z2
+    ax=z3
     line_done = 1 
 
 def main():
@@ -532,7 +532,7 @@ def grab(cam, queue, width, height, fps):
         else:
             print("x")
             print (queue.qsize())
-
+'''
 def printx():
     global running1
     global i
@@ -572,8 +572,45 @@ def printx():
         #print("m")
         #print(m)
         time.sleep(1)
-        
-        
+'''        
+def printx():
+    global running1
+    global i
+    global j
+    global k
+    global l
+    global m
+    global z1,z2,z3,z4,z5,z6,z7
+    
+    while(running1):
+        data = ser.readline()
+        data = data.decode('utf-8')
+        Data=data.split(',')
+        i=float(Data[0])
+        #i=random.uniform(0,100)
+        j=float(Data[1])
+        #j=random.uniform(0,100)
+        k=float(Data[2])
+        #k=random.uniform(0,100)
+        m=float(Data[3])
+        #l=random.uniform(0,100)
+        m=float(Data[4])
+        #m=random.uniform(0,100)
+
+        #z1=random.uniform(0,100)
+        #z2=random.uniform(0,100)
+        #z3=random.uniform(0,100)
+        #z4=random.uniform(0,100)
+        #z5=random.uniform(0,100)
+        #z6=random.uniform(0,100)
+        #z7=random.uniform(0,100)        
+        z1=float(Data[5])
+        z2=float(Data[6])
+        z3=float(Data[7])
+        z4=float(Data[8])
+        z5=float(Data[9])
+        z6=float(Data[10])
+        z7=float(Data[11])
         
         
     
