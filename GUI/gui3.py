@@ -21,7 +21,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
-ser = serial.Serial('COM1', 9600)
+#ser = serial.Serial('COM1', 9600)
 check=0
 k=0
 l=0
@@ -573,7 +573,7 @@ def printx():
         #print(m)
         time.sleep(1)
 '''
-
+'''
 
 def printx():
     global running1
@@ -615,38 +615,19 @@ def printx():
         z7=float(Data[11])
 
 '''
-#############################ethernet##########################################
+
 import time
-import pygame
+#import pygame
 import socket
 import sys
-
-# Create a UDP socket
 
 server_address = ('169.254.234.100', 5000)
 # Initializing controller
 pygame.init()
-j = pygame.joystick.Joystick(0)
-j.init()
-print ('Initialized Joystick : %s' % j.get_name())
+jj = pygame.joystick.Joystick(0)
+jj.init()
+print ('Initialized Joystick : %s' % jj.get_name())
 
-"""
-1.Left analog x axis
-2.Left analog y axis
-3.LT +ve RT -ve
-4.Right y axis
-5.Right x axis
-6.A
-7.B
-8.X
-9.Y
-10.LB
-11.RB
-12.BACK
-13.START
-14.LEFT CLICK
-15.RIGHT CLICK
-"""
 
 def get():
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -654,12 +635,12 @@ def get():
     pygame.event.pump()
     
     #Read input from the two joysticks       
-    for i in range(0, j.get_numaxes()):
-        out[it] = round(j.get_axis(i),1)
+    for i in range(0, jj.get_numaxes()):
+        out[it] = round(jj.get_axis(i),1)
         it+=1
     #Read input from buttons
-    for i in range(0, j.get_numbuttons()):
-        out[it] = j.get_button(i)
+    for i in range(0, jj.get_numbuttons()):
+        out[it] = jj.get_button(i)
         it+=1
     if(abs(out[1])>abs(out[0])):
         out[0]=0.0
@@ -677,8 +658,17 @@ def get():
     s=str(out).strip('[]')
     #print(s)
     return s
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#print("bhen")
+try:
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    print ("Socket successfully created")
+except socket.error as err:
+    print ("socket creation failed with error ")
+#sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#print("ke")
 
+
+    
 def printx():
     global running1
     global i
@@ -688,41 +678,42 @@ def printx():
     global m
     global z1,z2,z3,z4,z5,z6,z7
     while True:    
-        # Send data
-        get()
-        #print("x")
+    # Send data
+    #get()
+    #print("x")
         sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
-        while True:
-            try:
-                # Receive response
-                #print("try")
-                data, server = sock.recvfrom(4096)
-                #print('y')
-                #print(data.decode())
-                v=data.decode()
-                s=v.split(',')
-                i=float(s[0])
-                j=float(s[1])
-                k=float(s[2])
-                l=float(s[3])
-                m=float(s[4])
-                z1=float(s[5])
-                z2=float(s[6])
-                z3=float(s[7])
-                z4=float(s[8])
-                z5=float(s[9])
-                z6=float(s[10])
-                z7=float(s[11])
-                
-            except:
+        #while True:
+        try:
+            # Receive response
+        #print("try")
+            scam, server = sock.recvfrom(4096)
+        #print('y')
+            #print(data.decode())
+            scam1=scam.decode()
+            scamx=scam1.split(',')
+            i=float(scamx[0])
+            j=float(scamx[1])
+            k=float(scamx[2])
+            l=float(scamx[3])
+            m=float(scamx[4])
+            z1=float(scamx[5])
+            z2=float(scamx[6])
+            z3=float(scamx[7])
+            z4=float(scamx[8])
+            z5=float(scamx[9])
+            z6=float(scamx[10])
+            z7=float(scamx[11])
+            
+        except:
         
             #print("Data is passed")
-                pass
+            pass
         
         #time.sleep(0.1)
-
+    
+    
 ##############################################################################
-'''
+
         
     
 
@@ -873,8 +864,14 @@ scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
 mpu_thread=threading.Thread(target=main)
 
+print("LODE")
 app = QApplication(sys.argv)
+print("LODE2")
 w = MyWindowClass(None)
+print("LODE3")
 w.setWindowTitle('GUI')
+print("LODE4")
 w.show()
+print("LwODE5")
 app.exec_()
+print("LODE6")
