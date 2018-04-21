@@ -165,7 +165,7 @@ float sum1,sum2=0,sum3=0;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+/*
 /////////////////////////////////pressure sensor//////////////////////////////////////////////////////////////
 #include <Wire.h>
 #include <SPI.h>
@@ -178,7 +178,7 @@ float pp=0; //for storing the value of presure
 float vt=0;
 float t=0;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+*/
 
 // Etherner init
 int t1=0;int t2=-1;int t3=4;int t4=2;
@@ -197,7 +197,7 @@ int packetSize; //Size of Packet
 EthernetUDP Udp; //Define UDP Object
 
 // Function to convert sensors output to string
-String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,float temp,float humidity,float internal_pressure){
+String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,float temp,float humidity,float internal_pressure,int t6){
   String result;
   result=t1;
   result+=',';
@@ -220,6 +220,8 @@ String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,fl
   result+=humidity;
   result+=',';
   result+=internal_pressure;
+  result+=',';
+  result+=t6;
   return (result);
   }
 // function to covert string to int array
@@ -597,6 +599,7 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   v1 = random(30,48);
     
   t1++;t2++;t3++;t4++;
+  /*
   Serial.print(t1);
   Serial.print(',');
   Serial.print(t2);
@@ -620,8 +623,8 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   Serial.print(internal_pressure);
   Serial.print(',');
   Serial.println(t6);
-/*  
-  String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure);
+*/  
+  String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure,t6);
   packetSize = Udp.parsePacket(); //Read theh packetSize
   
   if(packetSize>0)
@@ -637,6 +640,6 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
-  //delay(100);*/
+  //delay(100);
 }
 }

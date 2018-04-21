@@ -574,7 +574,7 @@ def printx():
         time.sleep(1)
 '''
 
-'''
+
 def printx():
     global running1
     global i
@@ -613,6 +613,7 @@ def printx():
         z5=float(Data[9])
         z6=float(Data[10])
         z7=float(Data[11])
+
 '''
 #############################ethernet##########################################
 import time
@@ -688,7 +689,7 @@ def printx():
     global z1,z2,z3,z4,z5,z6,z7
     while True:    
         # Send data
-        #get()
+        get()
         #print("x")
         sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
         while True:
@@ -698,7 +699,8 @@ def printx():
                 data, server = sock.recvfrom(4096)
                 #print('y')
                 #print(data.decode())
-                s=data.decode()
+                v=data.decode()
+                s=v.split(',')
                 i=float(s[0])
                 j=float(s[1])
                 k=float(s[2])
@@ -720,7 +722,7 @@ def printx():
         #time.sleep(0.1)
 
 ##############################################################################
-    
+'''
         
     
 
