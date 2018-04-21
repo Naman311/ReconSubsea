@@ -10,8 +10,8 @@ void setup() {
   delay(10);                     //Baud rate prper initialization
   pinMode(13,INPUT);             //Pin D7 on NodeMcu Lua. Button to switch on and off the solenoid.
   WiFi.mode(WIFI_STA);           //NodeMcu esp12E in station mode
-  WiFi.begin("ESP_D54736");      //Connect to this SSID. In our case esp-01 SSID.  
-
+  //WiFi.begin("ESP_D54736");      //Connect to this SSID. In our case esp-01 SSID.  
+  WiFi.begin("OBS");
   while (WiFi.status() != WL_CONNECTED) {      //Wait for getting IP assigned by Access Point/ DHCP. 
                                                //Our case  esp-01 as Access point will assign IP to nodemcu esp12E.
     delay(500);
@@ -44,7 +44,7 @@ void loop() {
                 String line = client.readStringUntil('\r');
                 Serial.print(line);
               }
-              delay(1000);
+              delay(300);
               //Close the Connection. Automatically
               //Serial.println();
               //Serial.println("closing connection");             

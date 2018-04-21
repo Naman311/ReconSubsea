@@ -63,7 +63,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 while True:    
     # Send data
     #get()
-    print("x")
+    #print("x")
     sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
     #while True:
     try:
@@ -71,7 +71,7 @@ while True:
     #print("try")
         data, server = sock.recvfrom(4096)
     #print('y')
-    #print(data.decode())
+        print(data.decode())
     except:
     
         #print("Data is passed")

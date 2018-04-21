@@ -11,7 +11,10 @@
 
 #include "SPISlave.h"
 
-const char* host = "192.168.4.1"; //Ip of the Host(Our Case esp8266-01 as server. Its the ip of the esp8266-01 as Access point)
+#include <string>
+const char* ssid="LiftBag";
+const char* host="192.168.0.4";
+
 WiFiClient client;
 const int httpPort = 80;
 
@@ -22,16 +25,13 @@ int flag=0;
 // function to connect to server
 void conn_cli()
 {
-  WiFi.begin("ESP_D54736");      //Connect to this SSID. In our case esp-01 SSID.  
-  while (WiFi.status() != WL_CONNECTED) {      //Wait for getting IP assigned by Access Point/ DHCP. 
-                                              //Our case  esp-01 as Access point will assign IP to nodemcu esp12E.
-    delay(500);
+  WiFi.begin(ssid);
+  while(WiFi.status()!=WL_CONNECTED)
+  {
     Serial.print(".");
+    delay(200);
   }
-  Serial.println("");
-  Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());             //Check out the Ip assigned by the esp12E
+  Serial.println("WiFi connected:"+WiFi.localIP());
   Serial.print("connecting to ");
   Serial.println(host); 
 }
@@ -137,6 +137,7 @@ void loop()
       conn_cli();
       while(stat==1)
       {
+        String ss="";
         // Use WiFiClient class to create TCP connections
         if (!client.connect("192.168.4.1", httpPort)) 
         {
@@ -145,7 +146,8 @@ void loop()
           return;
         }   
         //Request to server to activate the led
-        client.print(String("GET ") +"/req"+" HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");         
+        String d=String(stat);
+        client.println(d);      
         delay(10);
         //Read all the lines of the reply from server and print them to Serial Monitor etc
         while(client.available())
