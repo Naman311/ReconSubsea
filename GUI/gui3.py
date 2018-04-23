@@ -7,6 +7,7 @@ Created on Sun Apr  1 16:28:50 2018
 
 from PyQt5 import QtCore, QtGui,QtWidgets ,uic
 from PyQt5.QtWidgets import QApplication,QWidget,QLineEdit,QApplication,QMainWindow,QPushButton,QMessageBox
+from PyQt5.QtCore import QTime,QTimer
 import random
 import sys
 import cv2
@@ -828,6 +829,12 @@ class MyWindowClass(QMainWindow, form_class):
         self.lcdNumber_10.display(z5)
         self.lcdNumber_11.display(z6)
         self.lcdNumber_12.display(z7)
+        stime="3:23"
+        self.lcdNumber_14.display(stime)
+        self.lcdNumber_13.display(stime)
+        stime="0:00"
+        self.lcdNumber_15.display(stime)
+        self.lcdNumber_16.display(stime)
     
         
     def update_frame(self):

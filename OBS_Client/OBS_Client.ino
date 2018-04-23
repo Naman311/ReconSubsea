@@ -147,5 +147,6 @@ void loop() {
   {
     //client.stop();
     Serial.println("Disconnected");
+    return;
   }
 }
