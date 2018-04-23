@@ -77,17 +77,18 @@ void loop() {
           {
             //Serial.println("Connected\n\n");
             if(client.available())
-            {String line=client.readStringUntil('\r');
-            delay(4);  
+            {String line=client.readStringUntil();
+            //delay(4);  
             
               Serial.println(line);
-              if(line.length()==1)
+              if(line.length()!=0)
               {
                 client.println(prepareHtmlPage());
                 break;
               }
              
             }
+            
              //client.println(prepareHtmlPage());
                // break;
           }

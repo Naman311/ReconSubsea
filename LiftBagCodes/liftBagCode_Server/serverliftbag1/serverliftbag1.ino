@@ -9,7 +9,6 @@ IPAddress ip(192,168,0,4);            //setting ip address
 IPAddress gateway(192,168,1,1);       //setting gateway
 IPAddress subnet(255,255,255,0);      //setting subnet
 WiFiServer server(80);                //setting server
-
 int pin=5;                            //for relay pin
 
 String StrBuffer="";
