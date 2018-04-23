@@ -93,13 +93,12 @@ void loop() {
             else ss=ss+StrBuffer[i];
           }*/
           Serial.print("Received:");
-          Serial.println(buf);
+          Serial.print(buf);
           if(buf==1){
-              //endConnection();
-              break;
+              ss=String(2)+"\r";
               }
           else {
-              int dataa=getStat();
+              int dataa=buf*2;
               ss=String(dataa)+"\r";
            }
           /*if(b[1]==0){ss+="Ron";}else {ss+="Roff";}

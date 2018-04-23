@@ -28,7 +28,6 @@ int switchh()
   int i=s.toInt();
   return i;
 }
-
 /*int switchCase(int rw)
 {
   switch(rw)
@@ -70,6 +69,7 @@ void loop() {
     while(client.connected())
     {
       data=switchh();
+      if(data==0)data=1;
       Serial.println("Sending "+String(data));
       String d=String(data);
       client.println(d);                                        //sends the integer
@@ -85,7 +85,7 @@ void loop() {
       
       Serial.print("Received:");
       Serial.println(ss+"\n");                                       //Just prints data for now
-       if(data==1){break;}
+       //if(data==1){break;}
       delay(300);
     }
     Serial.println("COnnection disabled");

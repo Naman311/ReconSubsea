@@ -71,7 +71,7 @@ void loop() {
       //adaFruit();
       WiFiClient client=server.available();
       //Serial.println(client);
-      Serial.println(WiFi.softAPIP());
+      //Serial.println(WiFi.softAPIP());
         
           while(client.connected())
           {
