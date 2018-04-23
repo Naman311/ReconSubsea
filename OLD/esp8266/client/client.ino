@@ -44,7 +44,7 @@ void loop() {
                 String line = client.readStringUntil('\r');
                 Serial.print(line);
               }
-              delay(1000);
+              delay(300);
               //Close the Connection. Automatically
               //Serial.println();
               //Serial.println("closing connection");             

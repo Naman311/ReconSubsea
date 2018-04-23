@@ -29,11 +29,12 @@ l=0
 m=0
 
 a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=a11=0
+'''
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
 #ser = serial.Serial('COM12',9600, timeout=1)
-'''
+
 ax = ay = az = 0.0
 #yaw_mode = False
 
@@ -151,7 +152,7 @@ def main():
 
     video_flags = OPENGL|DOUBLEBUF
     
-    #pygame.init()
+    pygame.init()
     screen = pygame.display.set_mode((480,320), video_flags)
     pygame.display.set_caption("Press Esc to quit, z toggles yaw mode")
     resize(480,320)
@@ -175,10 +176,10 @@ def main():
     print ("fps:  %d" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
     ser.close()
 
-'''
-###################################################################################################################################
-###################################################################################################################################
 
+###################################################################################################################################
+###################################################################################################################################
+'''
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
@@ -503,8 +504,8 @@ def detect():
 
 
 
-
 '''
+
 ###################################################################################################################################
                                                         #Ethernet
 ###################################################################################################################################
@@ -578,28 +579,28 @@ def process_value():
     b1=b2=b3=b4=b5=b6=b7=b8=b9=b10=b11=0
     while True:
         
-        #get()
+        get()
         sent=sock.sendto(bytes(get(),"utf-8"),(server_address))
         try:
         # Receive response
             #data = ser.readline()
             #data = data.decode('utf-8')
             #Data=data.split(',')
-            data, server = sock.recvfrom(4096)
-            print(data.decode())
-            data=data.decode()
-            string=data.split(',')
-            b1=int(string[0])
-            b2=int(string[1])
-            b3=int(string[2])
-            b4=int(string[3])
-            b5=int(string[4])
-            b6=int(string[5])
-            b7=int(string[6])
-            b8=int(string[7])
-            b9=int(string[8])
-            b10=int(string[9])
-            b11=int(string[10])
+            #data, server = sock.recvfrom(4096)
+            #print(data.decode())
+            #data=data.decode()
+            #string=data.split(',')
+            #b1=int(string[0])
+            #b2=int(string[1])
+            #b3=int(string[2])
+            #b4=int(string[3])
+            #b5=int(string[4])
+            #b6=int(string[5])
+            #b7=int(string[6])
+            #b8=int(string[7])
+            #b9=int(string[8])
+            #b10=int(string[9])
+            #b11=int(string[10])
             global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
             a1=random.randint(0,10)
             a2=random.randint(0,10)
@@ -632,7 +633,10 @@ def process_value():
     
 ###################################################################################################################################
 ###################################################################################################################################
+
 '''
+
+#########################################################################################################
 import time
 import pygame
 import socket
@@ -880,10 +884,10 @@ def main():
         print ("fps:  %d" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
     ser.close()
 
-'''if __name__ == '__main__':
-    main()
-'''
+#if __name__ == '__main__':
+    #main()
 
+#############################################################################################################
 
 running = False
 running1 = False
@@ -941,7 +945,7 @@ def printx():
         print(l)
         print("m")
         print(m)
-        
+'''        
 def printx():
     global a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11
     while 1:
@@ -957,7 +961,7 @@ def printx():
         a10=random.randint(0,10)
         a11=random.randint(0,10)
         
-'''    
+    
 
 class OwnImageWidget(QWidget):
     def __init__(self, parent=None):
@@ -1000,7 +1004,6 @@ class MyWindowClass(QMainWindow, form_class):
 
     def ps2(self):
         ethernet_thread.start()
-        
 
     def cvfeed(self):
     
@@ -1102,7 +1105,7 @@ capture_thread = threading.Thread(target=grab, args = (0, q, 1920, 1080, 30))
 detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
-#mpu_thread=threading.Thread(target=main)
+mpu_thread=threading.Thread(target=main)
 ethernet_thread=threading.Thread(target=main)
 
 
@@ -1110,5 +1113,4 @@ app = QApplication(sys.argv)
 w = MyWindowClass(None)
 w.setWindowTitle('GUI')
 w.show()
-#mpu_thread.start()
 app.exec_()

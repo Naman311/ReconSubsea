@@ -7,6 +7,7 @@ Created on Sun Apr  1 16:28:50 2018
 
 from PyQt5 import QtCore, QtGui,QtWidgets ,uic
 from PyQt5.QtWidgets import QApplication,QWidget,QLineEdit,QApplication,QMainWindow,QPushButton,QMessageBox
+from PyQt5.QtCore import QTime,QTimer
 import random
 import sys
 import cv2
@@ -26,6 +27,13 @@ check=0
 k=0
 l=0
 m=0
+z1=0
+z2=0
+z3=0
+z4=0
+z5=0
+z6=0
+z7=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
@@ -66,7 +74,7 @@ def draw():
     glLoadIdentity()
     glTranslatef(0,0.0,-7.0)
 
-    osd_text = "pitch: " + str("{0:.2f}".format(ay)) + ", roll: " + str("{0:.2f}".format(ax)) + ", yaw: " + str("{0:.2f}".format(az))
+    osd_text = " yaw: " + str("{0:.2f}".format(az)) + ", pitch: " + str("{0:.2f}".format(ay)) + ", roll: " + str("{0:.2f}".format(ax))
 
     #if yaw_mode:
     #osd_line = osd_text + ", yaw: " + str("{0:.2f}".format(az))
@@ -127,7 +135,7 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-    global k,l,m
+    global z1,z2,z3
     # request data by sending a dot
 
     #while not line_done:
@@ -138,9 +146,9 @@ def read_data():
         #az = float(angles[0])
         #ay = float(angles[1])
         #ax = float(angles[2])
-    az=k
-    ay=l
-    ax=m
+    az=z1
+    ay=z2
+    ax=z3
     line_done = 1 
 
 def main():
@@ -178,7 +186,7 @@ def main():
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -362,7 +370,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(0)
+cap=cv2.VideoCapture(1)
 
 ###################################################################################################
 class ContourWithData():
@@ -525,6 +533,48 @@ def grab(cam, queue, width, height, fps):
         else:
             print("x")
             print (queue.qsize())
+'''
+def printx():
+    global running1
+    global i
+    global j
+    global k
+    global l
+    global m
+    global z1,z2,z3,z4,z5,z6,z7
+    
+    while(running1):
+        #data = ser.readline()
+        #data = data.decode('utf-8')
+        #Data=data.split(',')
+        #x=float(Data[0])
+        i=random.uniform(0,100)
+        #y=float(Data[1])
+        j=random.uniform(0,100)
+        #z=float(Data[2])
+        k=random.uniform(0,100)
+        #a=float(Data[3])
+        l=random.uniform(0,100)
+        #b=float(Data[4])
+        m=random.uniform(0,100)
+
+        z1=random.uniform(0,100)
+        z2=random.uniform(0,100)
+        z3=random.uniform(0,100)
+        z4=random.uniform(0,100)
+        z5=random.uniform(0,100)
+        z6=random.uniform(0,100)
+        z7=random.uniform(0,100)
+        
+        #print("k")
+        #print(k)
+        #print("l")
+        #print(l)
+        #print("m")
+        #print(m)
+        time.sleep(1)
+'''
+'''
 
 def printx():
     global running1
@@ -533,29 +583,138 @@ def printx():
     global k
     global l
     global m
+    global z1,z2,z3,z4,z5,z6,z7
+    
     while(running1):
-        #data = ser.readline()
-        #data = data.decode('utf-8')
-        #Data=data.split(',')
-        #x=float(Data[0])
-        i=random.randint(0,10)
-        #y=float(Data[1])
-        j=random.randint(0,10)
-        #z=float(Data[2])
-        k=random.randint(0,10)
-        #a=float(Data[3])
-        l=random.randint(0,10)
-        #b=float(Data[4])
-        m=random.randint(0,10)
-        print("k")
-        print(k)
-        print("l")
-        print(l)
-        print("m")
-        print(m)
+        data = ser.readline()
+        data = data.decode('utf-8')
+        Data=data.split(',')
+        i=float(Data[0])
+        #i=random.uniform(0,100)
+        j=float(Data[1])
+        #j=random.uniform(0,100)
+        k=float(Data[2])
+        #k=random.uniform(0,100)
+        m=float(Data[3])
+        #l=random.uniform(0,100)
+        m=float(Data[4])
+        #m=random.uniform(0,100)
+
+        #z1=random.uniform(0,100)
+        #z2=random.uniform(0,100)
+        #z3=random.uniform(0,100)
+        #z4=random.uniform(0,100)
+        #z5=random.uniform(0,100)
+        #z6=random.uniform(0,100)
+        #z7=random.uniform(0,100)        
+        z1=float(Data[5])
+        z2=float(Data[6])
+        z3=float(Data[7])
+        z4=float(Data[8])
+        z5=float(Data[9])
+        z6=float(Data[10])
+        z7=float(Data[11])
+
+'''
+
+import time
+#import pygame
+import socket
+import sys
+
+server_address = ('169.254.234.100', 5000)
+# Initializing controller
+pygame.init()
+jj = pygame.joystick.Joystick(0)
+jj.init()
+print ('Initialized Joystick : %s' % jj.get_name())
+
+
+def get():
+    out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    it = 0 #iterator
+    pygame.event.pump()
+    
+    #Read input from the two joysticks       
+    for i in range(0, jj.get_numaxes()):
+        out[it] = round(jj.get_axis(i),1)
+        it+=1
+    #Read input from buttons
+    for i in range(0, jj.get_numbuttons()):
+        out[it] = jj.get_button(i)
+        it+=1
+    if(abs(out[1])>abs(out[0])):
+        out[0]=0.0
+    else:
+        out[1]=0.0
+    if(out[1]==0.1 or out[1]==-0.1):
+        out[1]=0.0
+    if(out[0]==0.1 or out[0]==-0.1):
+        out[0]=0.0
+    if(out[3]==0.1 or out[3]==-0.1):
+        out[3]=0.0
+    if(out[4]==0.1 or out[4]==-0.1):
+        out[4]=0.0
+    out[1]=out[1]*10
+    s=str(out).strip('[]')
+    #print(s)
+    return s
+#print("bhen")
+try:
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    print ("Socket successfully created")
+except socket.error as err:
+    print ("socket creation failed with error ")
+#sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#print("ke")
+
+
+    
+def printx():
+    global running1
+    global i
+    global j
+    global k
+    global l
+    global m
+    global z1,z2,z3,z4,z5,z6,z7
+    while True:    
+    # Send data
+    #get()
+    #print("x")
+        sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+        #while True:
+        try:
+            # Receive response
+        #print("try")
+            scam, server = sock.recvfrom(4096)
+        #print('y')
+            #print(data.decode())
+            scam1=scam.decode()
+            scamx=scam1.split(',')
+            i=float(scamx[0])
+            j=float(scamx[1])
+            k=float(scamx[2])
+            l=float(scamx[3])
+            m=float(scamx[4])
+            z1=float(scamx[5])
+            z2=float(scamx[6])
+            z3=float(scamx[7])
+            z4=float(scamx[8])
+            z5=float(scamx[9])
+            z6=float(scamx[10])
+            z7=float(scamx[11])
+            
+        except:
         
+            #print("Data is passed")
+            pass
         
-        
+        #time.sleep(0.1)
+    
+    
+##############################################################################
+
         
     
 
@@ -657,11 +816,25 @@ class MyWindowClass(QMainWindow, form_class):
         global k
         global l
         global m
+        global z1,z2,z3,z4,z5,z6
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
         self.lcdNumber_3.display(k)
         self.lcdNumber_4.display(l)
         self.lcdNumber_5.display(m)
+        self.lcdNumber_6.display(z1)
+        self.lcdNumber_7.display(z2)
+        self.lcdNumber_8.display(z3)
+        self.lcdNumber_9.display(z4)
+        self.lcdNumber_10.display(z5)
+        self.lcdNumber_11.display(z6)
+        self.lcdNumber_12.display(z7)
+        stime="3:23"
+        self.lcdNumber_14.display(stime)
+        self.lcdNumber_13.display(stime)
+        stime="0:00"
+        self.lcdNumber_15.display(stime)
+        self.lcdNumber_16.display(stime)
     
         
     def update_frame(self):
@@ -691,15 +864,21 @@ class MyWindowClass(QMainWindow, form_class):
 
 
 
-capture_thread = threading.Thread(target=grab, args = (0, q, 1920, 1080, 30))
+capture_thread = threading.Thread(target=grab, args = (1, q, 1920, 1080, 30))
 printer_thread = threading.Thread(target=printx)
 detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
 mpu_thread=threading.Thread(target=main)
 
+print("LODE")
 app = QApplication(sys.argv)
+print("LODE2")
 w = MyWindowClass(None)
+print("LODE3")
 w.setWindowTitle('GUI')
+print("LODE4")
 w.show()
+print("LwODE5")
 app.exec_()
+print("LODE6")
