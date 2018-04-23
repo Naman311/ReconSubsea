@@ -28,8 +28,21 @@ int switchh()
   int i=s.toInt();
   return i;
 }
+/*int switchCase(int rw)
+{
+  switch(rw)
+  {
+    case 0: return 5;
+    case 1: return 6;
+    case 2: return 7;
+    case 3: return 1;
+    default: return 9; 
+  }
+}*/
 
-/*void endConnection()
+
+
+void endConnection()
 {
   client.stop();
   WiFi.disconnect();
@@ -38,67 +51,50 @@ int switchh()
   connectStatus=false;
   //connectHotspot2();
   connecthotspot();                         //again initialise the hotsopt
-}*/
+}
 
 void setup() {
   Serial.begin(115200);
 }
 
-String ss="";
-
-void loop()
-{
-  char c=Serial.read();
-  String s;
-  s+=c;
-  int data=s.toInt();
-  if(data==0)
+void loop() {
+  
+  int data=0;                                                     //replace d with switch case
+  
+  if(data==0&&connectStatus==false)connecthotspot();
+  String ss="";
+  if(client.connect(host,80))
   {
-    connecthotspot();
-  }
-  else if(data==1)
-  {
-      if(!client.connect(host,80))
-      {
-        Serial.println("connection failed");
-      }
-      while(client.connected())
-      {
-        Serial.println("Sending "+String(data));
-        String d=String(data);
-        client.println(d);                                        //sends the integer
-        //delay(4);
-        while(client.available())
-        {
-          String s3=client.readStringUntil('\r');                 //Reads the response
-          ss=s3;
-        }
-        int sw=ss.toInt();
-        Serial.print("Received:");
-        Serial.println(ss+"\n");                                       //Just prints data for now
-      }
-  }
-  else if(data==2)
-  {
-    if(!client.connect(host,80))
-    {
-      Serial.println("connection failed");
-    }
+    Serial.println("Connected");
     while(client.connected())
     {
+      data=switchh();
+      if(data==0)data=1;
       Serial.println("Sending "+String(data));
       String d=String(data);
       client.println(d);                                        //sends the integer
-      //delay(4);
+      delay(4);
       while(client.available())
       {
         String s3=client.readStringUntil('\r');                 //Reads the response
         ss=s3;
+        
       }
       int sw=ss.toInt();
+      
+      
       Serial.print("Received:");
       Serial.println(ss+"\n");                                       //Just prints data for now
+       //if(data==1){break;}
+      delay(300);
     }
+    Serial.println("COnnection disabled");
+    endConnection();
   }
+  else 
+  {
+    Serial.println("Connection failed");
+    client.stop();
+  }
+  
 }
-
