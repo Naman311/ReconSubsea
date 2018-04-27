@@ -70,7 +70,7 @@ void loop() {
         {
           delay(2);
           StrBuffer=client.readStringUntil('\r');             //reads string from client
-          Serial.println(StrBuffer);
+          //Serial.print(StrBuffer);
 //----------------------------------------------          
           //int b[]={0,0},bn=0,las=0;
           int buf=StrBuffer.toInt();
@@ -109,9 +109,9 @@ void loop() {
           client.print(ss);                                                     //Sending back status in string to client
           ss="";
           //if(flag==1)break;
-          //delay(2);
+          delay(2);
           //break;
-          //delay(300);
+          delay(300);
         }
            
         
