@@ -209,7 +209,6 @@ String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,fl
   result+=',';
   result+=v1;
   result+=',';
-  result+=y;
   result+=',';
   result+=p;
   result+=',';
@@ -492,7 +491,7 @@ Current = (Voltage -2.5)/ 0.185; // Sensed voltage is converter to current
 
 ////////////////////////////pressure sensor//////////////////////////////////
     // read the input on analog pin 0:
-  float sensorValue = (analogRead(A0)-SensorOffset); //Do maths for calibration
+  float sensorValue = (analogRead(A1)-SensorOffset); //Do maths for calibration
   // print out the value you read:
   //Serial.print("Air Pressure: ");  
   //Serial.print(sensorValue,2);

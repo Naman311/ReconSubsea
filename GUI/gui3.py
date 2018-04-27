@@ -225,13 +225,34 @@ def colour_detect():
         maskFinal=maskClose
         maskFinal1=maskClose1
         maskFinal2=maskClose2
-    
+
+        area=area1=area2=0
         _,conts,h=cv2.findContours(maskFinal.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
-        cv2.drawContours(frame,conts,-1,(230,150,0),3)
-        _,conts1,h1=cv2.findContours(maskFinal1.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
-        cv2.drawContours(frame,conts1,-1,(0,255,255),3)
+        for i in range(len(conts)):
+            cnt=conts[i]
+            area=cv2.contourArea(cnt)
+        
+        _,conts1,h1=cv2.findContours(maskFinal1.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)    
+        for i in range(len(conts1)):
+            cnt1=conts1[i]
+            area1=cv2.contourArea(cnt1)
+            
         _,conts2,h2=cv2.findContours(maskFinal2.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
-        cv2.drawContours(frame,conts2,-1,(0,0,255),3)    
+        for i in range(len(conts2)):
+            cnt2=conts2[i]
+            area2=cv2.contourArea(cnt2)
+
+        sflag=0
+        
+        if((area>area1)and(area>area2)):
+            cv2.drawContours(frame,conts,-1,(230,150,0),3)
+            sflag=1
+        elif((area1>area)and(area1>area2)):
+            cv2.drawContours(frame,conts1,-1,(0,255,255),3)
+            sflag=2
+        elif((area2>area1)and(area2>area)):
+            cv2.drawContours(frame,conts2,-1,(0,0,255),3)
+            sflag=3 
 
 ###################################################################################################################
 
@@ -277,67 +298,86 @@ def colour_detect():
         sd2 = ShapeDetector()
 
 # loop over the contours
-        for c in cnts:
-	# compute the center of the contour, then detect the name of the
-	# shape using only the contour
-            '''
-            M = cv2.moments(c)
-            cX = int((M["m10"] / M["m00"]) * ratio)
-            cY = int((M["m01"] / M["m00"]) * ratio)
-            '''
-            shape = sd.detect(c)
-            shapex="blue "+shape
-            '''
-	# multiply the contour (x, y)-coordinates by the resize ratio,
-	# then draw the contours and the name of the shape on the image
-            c = c.astype("float")
-            c *= ratio
-            c = c.astype("int")
-            #cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
-            '''
-            cv2.putText(frame, shapex, (100, 100), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5, (255, 255, 255), 2)
-        for c1 in cnts1:
-	# compute the center of the contour, then detect the name of the
-	# shape using only the contour
-            '''
-            M = cv2.moments(c)
-            cX = int((M["m10"] / M["m00"]) * ratio)
-            cY = int((M["m01"] / M["m00"]) * ratio)
-            '''
-            shape1 = sd1.detect(c1)
-            shapex1="yellow "+shape1
-            '''
-	# multiply the contour (x, y)-coordinates by the resize ratio,
-	# then draw the contours and the name of the shape on the image
-            c = c.astype("float")
-            c *= ratio
-            c = c.astype("int")
-            #cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
-            '''
-            cv2.putText(frame, shapex1, (100, 200), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5, (255, 255, 255), 2)        
+        if sflag==1:
+            for c in cnts:
+                # compute the center of the contour, then detect the name of the
+                # shape using only the contour
+                    '''
+                    M = cv2.moments(c)
+                    cX = int((M["m10"] / M["m00"]) * ratio)
+                    cY = int((M["m01"] / M["m00"]) * ratio)
+                    '''
+                    shape = sd.detect(c)
+                    shapex="blue "+shape
+                    '''
+                # multiply the contour (x, y)-coordinates by the resize ratio,
+                # then draw the contours and the name of the shape on the image
+                    c = c.astype("float")
+                    c *= ratio
+                    c = c.astype("int")
+                    #cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
+                    '''
+                    if shape:
+                        if shape=="triangle":
+                            cv2.putText(frame, "C", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                                4, (230,150,0), 3)
+                        elif shape=="rectangle":
+                            cv2.putText(frame, "F", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                                4, (230,150,0), 3)
+                        
+        elif sflag==2:
+            for c1 in cnts1:
+                # compute the center of the contour, then detect the name of the
+                # shape using only the contour
+                    '''
+                    M = cv2.moments(c)
+                    cX = int((M["m10"] / M["m00"]) * ratio)
+                    cY = int((M["m01"] / M["m00"]) * ratio)
+                    '''
+                    shape1 = sd1.detect(c1)
+                    shapex1="yellow "+shape1
+                    '''
+                # multiply the contour (x, y)-coordinates by the resize ratio,
+                # then draw the contours and the name of the shape on the image
+                    c = c.astype("float")
+                    c *= ratio
+                    c = c.astype("int")
+                    #cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
+                    '''
+                    if shape1:
+                        if shape1=="triangle":
+                            cv2.putText(frame, "B", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                                4, (0,255,255), 3)
+                        elif shape1=="rectangle":
+                            cv2.putText(frame, "E", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                                4, (0,255,255), 3)     
+        elif sflag==3:
+            for c2 in cnts2:
+                # compute the center of the contour, then detect the name of the
+                # shape using only the contour
+                    '''
+                    M = cv2.moments(c)
+                    cX = int((M["m10"] / M["m00"]) * ratio)
+                    cY = int((M["m01"] / M["m00"]) * ratio)
+                    '''
+                    shape2 = sd2.detect(c2)
+                    shapex2="red "+shape2
+                    '''
+                # multiply the contour (x, y)-coordinates by the resize ratio,
+                # then draw the contours and the name of the shape on the image
+                    c = c.astype("float")
+                    c *= ratio
+                    c = c.astype("int")
+                    #cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
+                    '''
+                    if shape2:
+                        if shape2=="triangle":
+                            cv2.putText(frame, "A", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                                4, (0,0,255), 3)
+                        elif shape2=="rectangle":
+                            cv2.putText(frame, "D", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                                4, (0,0,255), 3)
 
-        for c2 in cnts2:
-	# compute the center of the contour, then detect the name of the
-	# shape using only the contour
-            '''
-            M = cv2.moments(c)
-            cX = int((M["m10"] / M["m00"]) * ratio)
-            cY = int((M["m01"] / M["m00"]) * ratio)
-            '''
-            shape2 = sd2.detect(c2)
-            shapex2="red "+shape2
-            '''
-	# multiply the contour (x, y)-coordinates by the resize ratio,
-	# then draw the contours and the name of the shape on the image
-            c = c.astype("float")
-            c *= ratio
-            c = c.astype("int")
-            #cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
-            '''
-            cv2.putText(frame, shapex2, (100, 300), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5, (255, 255, 255), 2)
 ###################################################################################################################
         frameX=cv2.resize(frame,(600,350))
         cv2.imshow('frame',frameX)
@@ -533,7 +573,7 @@ def grab(cam, queue, width, height, fps):
         else:
             print("x")
             print (queue.qsize())
-'''
+
 def printx():
     global running1
     global i
@@ -573,7 +613,7 @@ def printx():
         #print("m")
         #print(m)
         time.sleep(1)
-'''
+
 '''
 
 def printx():
@@ -616,7 +656,7 @@ def printx():
         z7=float(Data[11])
 
 '''
-
+'''
 import time
 #import pygame
 import socket
@@ -714,7 +754,7 @@ def printx():
     
     
 ##############################################################################
-
+'''
         
     
 
