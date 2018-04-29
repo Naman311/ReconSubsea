@@ -1,26 +1,19 @@
-/*
-Author- Ankit Jha
-*AJ*
-*/
 #include <ESP8266WiFi.h>
 #include <string>
-const char* ssid="ESP_D54736";
+
+int in = 16;
+
+const char* ssid="LiftBag";
 IPAddress ip(192,168,4,1);            //setting ip address
 IPAddress gateway(192,168,1,1);       //setting gateway
 IPAddress subnet(255,255,255,0);      //setting subnet
 WiFiServer server(80);                //setting server
 
-int pin=5;                            //for relay pin
-
 String StrBuffer="";
-int flag=0;
 
 void setupServer()
 {
-      //Serial.print("Configuring access point");
       bool stats=WiFi.softAPConfig(ip,gateway,subnet);    //wifi function returns boolean true or false when we configure it with data
-      //Serial.println(stats==false?" Failed!!":" Ready!!");
-      //Serial.println("Setting up access point:");
       WiFi.softAP(ssid);                //configuring soft access point
       Serial.print("IP address:");
       Serial.println(WiFi.softAPIP());  //Printing IP address
@@ -30,97 +23,50 @@ void setupServer()
 void endConnection()
 {
   WiFi.disconnect();                               //Ends wiFi access point.
-  //delay(4000);
   setupServer();
-}
-
-/*int getData()
-{
-  char c=Serial.read();
-  String s;
-  s+=c;
-  int i=s.toInt();
-  Serial.println("Sending"+String(i));
-  return i;
-}*/
-
-int getStat()
-{
-  return 5;
 }
 
 void setup() {
       Serial.begin(115200);
-      //Serial.println("Serial monitor started");
       delay(200);
-      pinMode(pin,OUTPUT);
-      setupServer();                          //setting up server for wifi named TheDarkKnight
+      setupServer();                          
+      pinMode(in, OUTPUT);
+      digitalWrite(in, HIGH);
 }
 
-void loop() {
+void loop() 
+{
 
-      //Serial.println(WiFi.softAPIP());
       WiFiClient client = server.available();
       StrBuffer="";
       String ss;
       if(client)           //waiting for client to connect
       {
-        //Serial.println("Looks like he is connected\n");
         while(client.connected())
         {
           delay(2);
           StrBuffer=client.readStringUntil('\r');             //reads string from client
           Serial.println(StrBuffer);
-//----------------------------------------------          
-          //int b[]={0,0},bn=0,las=0;
           int buf=StrBuffer.toInt();
-          /*for(int i=0;i<StrBuffer.length();i++)
+          if(buf==1)
           {
-            if(StrBuffer[i]==',')
-            {
-              b[bn++]=(ss.substring(0)).toInt();            //converts a number from string to int
-              //Serial.println(b[bn-1]);
-              las=i+1;
-              ss="";
-            }
-            else if(StrBuffer[i]==';')
-            {
-              b[bn++]=(ss.substring(0)).toInt();
-              //Serial.println(b[bn-1]);
-              ss="";
-              break;
-            }
-            else ss=ss+StrBuffer[i];
-          }*/
-          Serial.print("Received:");
-          Serial.print(buf);
-          if(buf==1){
-              ss=String(2)+"\r";
+              ss="1\r";
               }
-          else {
-              int dataa=buf*2;
-              ss=String(dataa)+"\r";
+          else if (buf==2)
+          {
+              digitalWrite(in, LOW);
+              ss="2\r";
            }
-          /*if(b[1]==0){ss+="Ron";}else {ss+="Roff";}
-          */ 
-          //-----------------------------------------------------------------          
-          //flag=0;
-          Serial.println("\nSending this to client:"+ss);
+           else
+           {
+            ss="0/r";
+           }
           client.print(ss);                                                     //Sending back status in string to client
           ss="";
-          //if(flag==1)break;
-          //delay(2);
-          //break;
-          //delay(300);
-        }
-           
-        
-      
-      //delay(2);
+       }
       client.stop();
       Serial.println("Client disconnected :(");
       endConnection();                                                        //ending wifi connection for the nodeMCU for 5 sec
-      }
-      
-  }
+     }
+}
 

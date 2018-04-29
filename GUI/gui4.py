@@ -186,7 +186,7 @@ def main():
 ###################################################################################################################################
                                                 #Colour Detection
 ###################################################################################################################################
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 def colour_detect():
     
     kernelOpen=np.ones((5,5))
@@ -410,7 +410,7 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(0)
 
 ###################################################################################################
 class ContourWithData():
@@ -439,7 +439,7 @@ class ContourWithData():
 def detect():
     while True:
         ret,frame=cap.read()
-        frame=frame[160:320,160:480]
+        #frame=frame[160:320,160:480]
         if ret==True:
             
             allContoursWithData = []                # declare empty lists,
@@ -531,14 +531,43 @@ def detect():
                 retval, npaResults, neigh_resp, dists = kNearest.findNearest(npaROIResized, k = 1)     # call KNN function find_nearest
                 #print(dists)
                 strCurrentChar = str(chr(int(npaResults[0][0])))                                             # get character from results
+
                 strFinalString = strFinalString + strCurrentChar            # append current char to full string
     # end for
-                #if "UH8" in strFinalString:
-                print ("\n" + strFinalString + "\n")                  # show the full string
-                #    print("\n")
-                #else:
-                 #   print("NO")
-                        
+                struh1="UH8"
+                struh2="L6R"
+                struh3="G7C"
+                struh4="S1P"
+                struh5="JW3"
+                struh6="A2X"
+
+                if strFinalString.find(struh1)>0:
+                    print(struh1)
+                    cv2.putText(frame, "A", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,0,255), 2)
+                elif strFinalString.find(struh2)>0:
+                    print(struh2)
+                    cv2.putText(frame, "B", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,255,255), 2)
+                elif strFinalString.find(struh3)>0:
+                    print(struh3)
+                    cv2.putText(frame, "C", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (230,150,0), 2)
+                elif strFinalString.find(struh4)>0:
+                    print(struh4)
+                    cv2.putText(frame, "D", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,0,255), 2)
+                elif strFinalString.find(struh5)>0:
+                    print(struh5)
+                    cv2.putText(frame, "E", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,255,255), 2)
+                elif strFinalString.find(struh6)>0:
+                    print(struh6)
+                    cv2.putText(frame, "F", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (230,150,0), 2)
+                
+                #print ("\n" + strFinalString + "\n")                  # show the full string
+
                 cv2.imshow("imgTestingNumbers", frame)      # show input image with green boxes drawn around found digits
             if cv2.waitKey(1) & 0xFF==ord('v'):                                          # wait for user key press
                 break
@@ -906,7 +935,7 @@ class MyWindowClass(QMainWindow, form_class):
 
 
 
-capture_thread = threading.Thread(target=grab, args = (1, q, 1920, 1080, 30))
+capture_thread = threading.Thread(target=grab, args = (0, q, 1920, 1080, 30))
 printer_thread = threading.Thread(target=printx)
 detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
@@ -924,3 +953,4 @@ w.show()
 print("LwODE5")
 app.exec_()
 print("LODE6")
+ 

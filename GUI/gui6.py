@@ -24,6 +24,8 @@ import pygame
 from pygame.locals import *
 #ser = serial.Serial('COM1', 9600)
 check=0
+pbValue=0
+Kill=0
 k=0
 l=0
 m=0
@@ -381,7 +383,7 @@ def colour_detect():
 ###################################################################################################################
         frameX=cv2.resize(frame,(600,350))
         cv2.imshow('frame',frameX)
-        cv2.moveWindow('frame',750,300)
+        #cv2.moveWindow('frame',750,300)
         #cv2.imshow('mask',mask)
         #cv2.imshow('yellow',res1)
         #cv2.imshow('blue',res)
@@ -439,7 +441,7 @@ class ContourWithData():
 def detect():
     while True:
         ret,frame=cap.read()
-        frame=frame[160:320,160:480]
+        #frame=frame[160:320,160:480]
         if ret==True:
             
             allContoursWithData = []                # declare empty lists,
@@ -531,14 +533,43 @@ def detect():
                 retval, npaResults, neigh_resp, dists = kNearest.findNearest(npaROIResized, k = 1)     # call KNN function find_nearest
                 #print(dists)
                 strCurrentChar = str(chr(int(npaResults[0][0])))                                             # get character from results
+
                 strFinalString = strFinalString + strCurrentChar            # append current char to full string
     # end for
-                #if "UH8" in strFinalString:
-                print ("\n" + strFinalString + "\n")                  # show the full string
-                #    print("\n")
-                #else:
-                 #   print("NO")
-                        
+                struh1="UH8"
+                struh2="L6R"
+                struh3="G7C"
+                struh4="S1P"
+                struh5="JW3"
+                struh6="A2X"
+
+                if strFinalString.find(struh1)>0:
+                    print(struh1)
+                    cv2.putText(frame, "A", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,0,255), 2)
+                elif strFinalString.find(struh2)>0:
+                    print(struh2)
+                    cv2.putText(frame, "B", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,255,255), 2)
+                elif strFinalString.find(struh3)>0:
+                    print(struh3)
+                    cv2.putText(frame, "C", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (230,150,0), 2)
+                elif strFinalString.find(struh4)>0:
+                    print(struh4)
+                    cv2.putText(frame, "D", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,0,255), 2)
+                elif strFinalString.find(struh5)>0:
+                    print(struh5)
+                    cv2.putText(frame, "E", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (0,255,255), 2)
+                elif strFinalString.find(struh6)>0:
+                    print(struh6)
+                    cv2.putText(frame, "F", (200, 200), cv2.FONT_HERSHEY_SIMPLEX,
+                            2, (230,150,0), 2)
+                
+                #print ("\n" + strFinalString + "\n")                  # show the full string
+                frame=cv2.resize(frame,(600,350))
                 cv2.imshow("imgTestingNumbers", frame)      # show input image with green boxes drawn around found digits
             if cv2.waitKey(1) & 0xFF==ord('v'):                                          # wait for user key press
                 break
@@ -559,7 +590,7 @@ j=0
 
 def grab(cam, queue, width, height, fps):
     global running
-    capture = cv2.VideoCapture(cam)
+    capture = cv2.VideoCapture(1)
     capture.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     capture.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     capture.set(cv2.CAP_PROP_FPS, fps)
@@ -576,6 +607,7 @@ def grab(cam, queue, width, height, fps):
             print("x")
             print (queue.qsize())
 
+'''
 def printx():
     global running1
     global i
@@ -616,7 +648,7 @@ def printx():
         #print(m)
         time.sleep(1)
 
-'''
+
 
 def printx():
     global running1
@@ -658,7 +690,7 @@ def printx():
         z7=float(Data[11])
 
 '''
-'''
+
 import time
 #import pygame
 import socket
@@ -673,7 +705,7 @@ print ('Initialized Joystick : %s' % jj.get_name())
 
 
 def get():
-    out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]#17
     it = 0 #iterator
     pygame.event.pump()
     
@@ -698,17 +730,16 @@ def get():
     if(out[4]==0.1 or out[4]==-0.1):
         out[4]=0.0
     out[1]=out[1]*10
+    out[17]=pbValue
     s=str(out).strip('[]')
     #print(s)
     return s
-#print("bhen")
+
 try:
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     print ("Socket successfully created")
 except socket.error as err:
     print ("socket creation failed with error ")
-#sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#print("ke")
 
 
     
@@ -721,17 +752,10 @@ def printx():
     global m
     global z1,z2,z3,z4,z5,z6,z7
     while True:    
-    # Send data
-    #get()
-    #print("x")
         sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
         #while True:
         try:
-            # Receive response
-        #print("try")
             scam, server = sock.recvfrom(4096)
-        #print('y')
-            #print(data.decode())
             scam1=scam.decode()
             scamx=scam1.split(',')
             i=float(scamx[0])
@@ -748,15 +772,10 @@ def printx():
             z7=float(scamx[11])
             
         except:
-        
-            #print("Data is passed")
             pass
-        
-        #time.sleep(0.1)
-    
     
 ##############################################################################
-'''
+
         
     
 
@@ -790,6 +809,10 @@ class MyWindowClass(QMainWindow, form_class):
         self.pushButton_2.clicked.connect(self.message)
         self.pushButton_3.clicked.connect(self.message1)
         self.pushButton_4.clicked.connect(self.ct)
+        self.pushButton_5.clicked.connect(self.maar_daala)
+        self.pushButton_6.clicked.connect(self.pbChange1)
+        self.pushButton_7.clicked.connect(self.pbChange2)
+        self.pushButton_8.clicked.connect(self.pbChange3)
         self.window_width = self.ImgWidget.frameSize().width()
         self.window_height = self.ImgWidget.frameSize().height()
         self.ImgWidget = OwnImageWidget(self.ImgWidget)       
@@ -798,6 +821,27 @@ class MyWindowClass(QMainWindow, form_class):
         self.timer.timeout.connect(self.update_frame)
         self.timer.timeout.connect(self.update_lcd)
         self.timer.start(1)
+
+    def maar_daala(self):
+        global Kill
+        Kill=1
+        print(Kill)
+
+    def pbChange1(self):
+        global pbValue
+        pbValue=1
+        print(pbValue)
+
+    def pbChange2(self):
+        global pbValue
+        pbValue=2
+        print(pbValue)
+
+    def pbChange3(self):
+        global pbValue
+        pbValue=3
+        print(pbValue)
+        
 
     def cvfeed(self):
     
@@ -906,21 +950,21 @@ class MyWindowClass(QMainWindow, form_class):
 
 
 
-capture_thread = threading.Thread(target=grab, args = (1, q, 1920, 1080, 30))
+capture_thread = threading.Thread(target=grab, args = (0, q, 1920, 1080, 30))
 printer_thread = threading.Thread(target=printx)
 detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
 mpu_thread=threading.Thread(target=main)
 
-print("LODE")
+#print("LODE")
 app = QApplication(sys.argv)
-print("LODE2")
+#print("LODE2")
 w = MyWindowClass(None)
-print("LODE3")
+#print("LODE3")
 w.setWindowTitle('GUI')
-print("LODE4")
+#print("LODE4")
 w.show()
-print("LwODE5")
+#print("LwODE5")
 app.exec_()
-print("LODE6")
+#print("LODE6")

@@ -70,6 +70,7 @@ void loop() {
   Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE); //Reading the data request on the Udp
   datReq=packetBuffer; //Convert packetBuffer array to string datReq
   Serial.println(datReq);
+  
   }
     Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
     Udp.print(output); //Send string back to client 

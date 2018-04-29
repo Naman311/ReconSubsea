@@ -25,6 +25,7 @@ void setup() {
     String message = String((char *)data);
     (void) len;
     if (message.equals("Hello")) {
+      Serial.println("yes");
       SPISlave.setData("Hello Master!");
     } else if (message.equals("Are you alive?")) {
       char answer[33];
