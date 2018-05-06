@@ -730,17 +730,19 @@ def get():
     if(out[4]==0.1 or out[4]==-0.1):
         out[4]=0.0
     out[1]=out[1]*10
+    out[0]=out[0]*10
+    out[3]=out[3]*10
+    out[4]=out[4]*10
     out[17]=pbValue
     s=str(out).strip('[]')
     #print(s)
     return s
-
-try:
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    print ("Socket successfully created")
-except socket.error as err:
-    print ("socket creation failed with error ")
-
+if Kill==0:
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        print ("Socket successfully created")
+    except socket.error as err:
+        print ("socket creation failed with error ")
 
     
 def printx():
