@@ -254,6 +254,7 @@ void addNos(String data)
 }
 
 // function to control thrusters
+
 void thruster_movement()
 {
   int signal;
@@ -271,7 +272,7 @@ void thruster_movement()
   //Serial.println(signal);
   servo.writeMicroseconds(signal); // Send signal to ESC.
 }
-/*void move_down()
+void move_down()
 {
   int signal=map(nos[1],1,10,1501,1900);
   l.writeMicroseconds(signal);
@@ -298,23 +299,61 @@ void move_backward()
 }
 void move_left()
 {
-  int signal=map(nos[2],-10,0,1100,1500);
+  int signal=map(nos[4],-10,0,1100,1500);
   fl.writeMicroseconds(signal);
   bl.writeMicroseconds(signal);
 }
 void move_right()
 {
-  int signal=map(nos[2],1,10,1501,1900);
+  int signal=map(nos[4],1,10,1501,1900);
   fr.writeMicroseconds(signal);
   br.writeMicroseconds(signal);
 }
-void pitch_anti()
-{//yet to complete
+void roll_left()
+{
   int signal=map(nos[0],-10,0,1100,1500);
+  l.writeMicroseconds(signal);
+  int signal=map(nos[0],-10,0,1900,1501);
+  r.writeMicroseconds(signal);
+}
+void roll_right()
+{
+  int signal=map(nos[0],1,10,1100,1500);
+  r.writeMicroseconds(signal);
+  int signal=map(nos[0],1,10,1900,1501);
+  l.writeMicroseconds(signal);
+}
+void pitch_anti()
+{
+  br.writeMicroseconds();
 }
 void pitch_cloc()
-{//yet to complete
-  int signal=map(nos[0],1,10,1100,1500);
+{
+  
+}
+void mani_open()
+{
+  analogWrite(6,0);
+  analogWrite(9,0);
+  delay(5);
+  analogWrite(7,1024);
+  analogWrite(8,1024);
+}
+void mani_close()
+{
+  analogWrite(7,0);
+  analogWrite(8,0);
+  delay(5);
+  analogWrite(6,1024);
+  analogWrite(9,1024);
+}
+void obs_clock()
+{
+  digital
+}
+void obs_anti()
+{
+  
 }
 void movement()
 {//l r fl fr bl br
@@ -329,11 +368,11 @@ void movement()
   }
   if(nos[0]<=0)
   {
-    pitch_anti();
+    roll_left();
   }
   else if(nos[0]>0)
   {
-    pitch_cloc();
+    roll_right();
   }
   if(nos[3]<=0)
   {
@@ -351,10 +390,14 @@ void movement()
   {
     move_right();
   }
-}*/
+}
 void setup() {
   // Ethernet setup
-  Serial.begin(9600); //Turn on Serial Port
+  pinMode(,OUTPUT);
+  pinMode(,OUTPUT);
+  analogWrite(,0);
+  analogWrite(,0);
+  Serial.begin(115200); //Turn on Serial Port
 
 ///////////////////////////HDC1050///////////////////////////////////
 Wire.begin();
@@ -507,16 +550,6 @@ if (!dmpReady) return;
 
     // wait for MPU interrupt or extra packet(s) available
     while (!mpuInterrupt && fifoCount < packetSize1) {
-        // other program behavior stuff here
-        // .
-        // .
-        // .
-        // if you are really paranoid you can frequently test in between other
-        // stuff to see if mpuInterrupt is true, and if so, "break;" from the
-        // while() loop to immediately process the MPU data
-        // .
-        // .
-        // .
     }
 
     // reset interrupt flag and get INT_STATUS byte
@@ -561,18 +594,9 @@ if(flag==0)
 flag=1;}
 ///////////////////////////////////////////////////////            
         #ifdef OUTPUT_READABLE_YAWPITCHROLL
-            // display Euler angles in degrees
             mpu.dmpGetQuaternion(&q, fifoBuffer);
             mpu.dmpGetGravity(&gravity, &q);
             mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-            //Serial.print("ypr\t");
-            //Serial.print(ypr[0] * 180/M_PI-sum1);
-            //Serial.print("\t");
-            //Serial.print(",");
-            //Serial.print(ypr[1] * 180/M_PI-sum2);
-            //Serial.print("\t");
-            //Serial.print(",");
-            //Serial.println(ypr[2] * 180/M_PI-sum3);
             y=ypr[0] * 180/M_PI-sum1;
             p=ypr[1] * 180/M_PI-sum2;
             r=ypr[2] * 180/M_PI-sum3;
@@ -583,52 +607,19 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   
   temp = tc;
   humidity = h;
-  //Serial.print(tc);
-  //Serial.print("  ");
-  //Serial.print(tf);
-  //Serial.print("  ");
-  //Serial.println(h);
-
 
   internal_pressure = sensorValue,2;
-  //y = random(10,50);
-  //p = random(10,50);
-  //r = random(10,50);
   int t5 = random(10,50);
   int t6=random(10,50);
   v1 = random(30,48);
     
   t1++;t2++;t3++;t4++;
-  /*
-  Serial.print(t1);
-  Serial.print(',');
-  Serial.print(t2);
-  Serial.print(',');
-  Serial.print(t3);
-  Serial.print(',');
-  Serial.print(t4);
-  Serial.print(',');
-  Serial.print(t5);
-  Serial.print(',');
-  Serial.print(y);
-  Serial.print(',');
-  Serial.print(p);
-  Serial.print(',');
-  Serial.print(r);
-  Serial.print(',');
-  Serial.print(temp);
-  Serial.print(',');
-  Serial.print(humidity);
-  Serial.print(',');
-  Serial.print(internal_pressure);
-  Serial.print(',');
-  Serial.println(t6);
-*/  
+ 
   String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure,t6);
   packetSize = Udp.parsePacket(); //Read theh packetSize
   
   if(packetSize>0)
-  { //Check to see if a request is present
+  { 
     Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE); //Reading the data request on the Udp
     datReq=packetBuffer; //Convert packetBuffer array to string datReq
     addNos(datReq);
@@ -640,6 +631,5 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
-  //delay(100);
 }
 }
