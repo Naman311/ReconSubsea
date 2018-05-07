@@ -1113,8 +1113,8 @@ class MyWindowClass(QMainWindow, form_class):
         self.lcdNumber_6.display(z1)
         self.lcdNumber_7.display(z2)
         self.lcdNumber_8.display(z3)
-        self.lcdNumber_9.display(z4)
-        self.lcdNumber_10.display(z5)
+        self.lcdNumber_9.display(xx)
+        self.lcdNumber_10.display(yy)
         self.lcdNumber_11.display(z6)
         self.lcdNumber_12.display(z7)
         stime="3:23"
