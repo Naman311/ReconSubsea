@@ -182,7 +182,7 @@ float t=0;
 
 // Etherner init
 int t1=0;int t2=-1;int t3=4;int t4=2;
-int v1=0; long y=0;long p=0; long r=0;
+int v1=5; long y=0;long p=0; long r=0;
 
 long temp;
 long humidity;
@@ -209,6 +209,7 @@ String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,fl
   result+=',';
   result+=v1;
   result+=',';
+  result+=y;
   result+=',';
   result+=p;
   result+=',';
@@ -221,6 +222,7 @@ String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,fl
   result+=internal_pressure;
   //result+=',';
   //result+=t6;
+  //Serial.println("Yaw::pitch::Roll::::"+String(y)+":"+String(p)+":"+String(r)+"\n\n\n");
   return (result);
   }
 // function to covert string to int array
@@ -455,7 +457,7 @@ void setup() {
 delay(30000);
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-  /*
+  
   Ethernet.begin(mac, ip); //Initialize Ethernet
   Udp.begin(localPort); //Initialize Udp
   //delay(1500); //delay
@@ -469,7 +471,7 @@ delay(30000);
 
 void loop() {
   //Ethernet code
-  Serial.println("bakchodi");
+  //Serial.println("bakchodi");
 Voltage=0;
 Current=0;
 double voltage1=0,voltage2=0,voltage3=0;
@@ -478,7 +480,7 @@ double current1=0,current2=0,current3=0;
 ////////////////////////////pressure sensor//////////////////////////////////
     // read the input on analog pin 0:
   float sensorValue = (analogRead(A1)-SensorOffset); //Do maths for calibration
-Serial.println("Pressure"+String(sensorValue));
+//Serial.println("Pressure"+String(sensorValue));
   
   // print out the value you read:
   //Serial.print("Air Pressure: ");  
@@ -563,7 +565,7 @@ flag=1;}
             y=ypr[0] * 180/M_PI-sum1;
             p=ypr[1] * 180/M_PI-sum2;
             r=ypr[2] * 180/M_PI-sum3;
-            Serial.println("Yaw:Pitch:Roll::"+String(y)+":"+String(p)+":"+String(r));
+            //Serial.println("Yaw:Pitch:Roll::"+String(y)+":"+String(p)+":"+String(r));
         #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -586,10 +588,10 @@ Current = (Voltage)/ 0.185; // Sensed voltage is converter to current
 current1=voltage1/0.185;
 current2=voltage2/0.185;
 current3=voltage3/0.185;
-Serial.println("Sensor1::Voltage:Current::"+String(Voltage)+":"+String(Current));
-Serial.println("Sensor2::Voltage:Current::"+String(voltage1)+":"+String(current1));
-Serial.println("Sensor3::Voltage:Current::"+String(voltage2)+":"+String(current2));
-Serial.println("Sensor4::Voltage:Current::"+String(voltage3)+":"+String(current3));
+//Serial.println("Sensor1::Voltage:Current::"+String(Voltage)+":"+String(Current));
+//Serial.println("Sensor2::Voltage:Current::"+String(voltage1)+":"+String(current1));
+//Serial.println("Sensor3::Voltage:Current::"+String(voltage2)+":"+String(current2));
+//Serial.println("Sensor4::Voltage:Current::"+String(voltage3)+":"+String(current3));
 t1=Current;
 t2=current1;
 t3=current2;
@@ -665,8 +667,9 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   Serial.print(',');
   Serial.println(t6);
 */  
+
   String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure);
-  /*packetSize = Udp.parsePacket(); //Read theh packetSize
+ packetSize = Udp.parsePacket(); //Read theh packetSize
   
   if(packetSize>0)
   { //Check to see if a request is present
@@ -675,12 +678,13 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
     addNos(datReq);
     Serial.println(datReq);
 
-    thruster_movement();
+    //thruster_movement();
   }
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
+  Serial.println(output);
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
-  */memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
+  memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
   delay(100);
 }
 }
