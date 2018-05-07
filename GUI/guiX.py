@@ -60,7 +60,7 @@ xx14=14
 xx15=15
 xx16=16
 
-yy=yy1=yy2=yy3=yy4=yy5=yy6=yy7=yy8=yy9=yy10=yy11=yy12=yy13=yy14=yy15=0
+yy=yy1=yy2=yy3=yy4=yy5=yy6=yy7=yy8=yy9=yy10=yy11=yy12=yy13=yy14=yy15=yy16=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
@@ -635,26 +635,44 @@ def grab(cam, queue, width, height, fps):
             #print (queue.qsize())
 
 def animate(i):
-    global xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15
-    global yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15
+    global xx1,xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15,xx16
+    global yy1,yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15,yy16
     xa=[]
     ya=[]
-    xx2=1
+    xa.append(xx1)
     xa.append(xx2)
-    xx3=2
     xa.append(xx3)
-    xx4=3
     xa.append(xx4)
-    xx5=4
     xa.append(xx5)
-    yy2=1
+    xa.append(xx6)
+    xa.append(xx7)
+    xa.append(xx8)
+    xa.append(xx9)
+    xa.append(xx10)
+    xa.append(xx11)
+    xa.append(xx12)
+    xa.append(xx13)
+    xa.append(xx14)
+    xa.append(xx15)
+    xa.append(xx16)
+    
+    ya.append(yy1)
     ya.append(yy2)
-    yy3=-10
     ya.append(yy3)
-    yy4=5
     ya.append(yy4)
-    yy5=6
     ya.append(yy5)
+    ya.append(yy6)
+    ya.append(yy7)
+    ya.append(yy8)
+    ya.append(yy9)
+    ya.append(yy10)
+    ya.append(yy11)
+    ya.append(yy12)
+    ya.append(yy13)
+    ya.append(yy14)
+    ya.append(yy15)
+    ya.append(yy16)
+    
     ax1.clear()
     ax1.plot(xa,ya)
     
@@ -704,7 +722,8 @@ def printx():
     global l
     global m
     global z1,z2,z3,z4,z5,z6,z7
-    
+    global xx
+    global yy,yy1,yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15,yy16
     while(running1):
         #data = ser.readline()
         #data = data.decode('utf-8')
@@ -727,6 +746,26 @@ def printx():
         z5=random.uniform(0,100)
         z6=random.uniform(0,100)
         z7=random.uniform(0,100)
+
+        xx=random.uniform(0,100)
+        yy=random.uniform(0,100)
+
+        yy1=random.uniform(-10,10)
+        yy2=random.uniform(-10,10)
+        yy3=random.uniform(-10,10)
+        yy4=random.uniform(-10,10)
+        yy5=random.uniform(-10,10)
+        yy6=random.uniform(-10,10)
+        yy7=random.uniform(-10,10)
+        yy8=random.uniform(-10,10)
+        yy9=random.uniform(-10,10)
+        yy10=random.uniform(-10,10)
+        yy11=random.uniform(-10,10)
+        yy12=random.uniform(-10,10)
+        yy13=random.uniform(-10,10)
+        yy14=random.uniform(-10,10)
+        yy15=random.uniform(-10,10)
+        yy16=random.uniform(-10,10)
         
         #print("k")
         #print(k)
@@ -734,7 +773,7 @@ def printx():
         #print(l)
         #print("m")
         #print(m)
-        time.sleep(1)
+        time.sleep(0.5)
 
 
 '''
