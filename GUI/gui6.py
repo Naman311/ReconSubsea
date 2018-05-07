@@ -22,6 +22,9 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
 #ser = serial.Serial('COM1', 9600)
 check=0
 pbValue=0
@@ -36,6 +39,10 @@ z4=0
 z5=0
 z6=0
 z7=0
+z8=0
+z9=0
+xx=xx1=xx2=xx3=xx4=xx5=xx6=xx7=xx8=xx9=xx10=xx11=xx12=xx13=xx14=xx15=0
+yy=yy1=yy2=yy3=yy4=yy5=yy6=yy7=yy8=yy9=yy10=yy11=yy12=yy13=yy14=yy15=0
 ###################################################################################################################################
                                                     #MPU
 ###################################################################################################################################
@@ -607,7 +614,68 @@ def grab(cam, queue, width, height, fps):
             print("x")
             print (queue.qsize())
 
-'''
+def animate(i):
+    global xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15
+    global yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15
+    xa=[]
+    ya=[]
+    xx2=1
+    xa.append(xx2)
+    xx3=2
+    xa.append(xx3)
+    xx4=3
+    xa.append(xx4)
+    xx5=4
+    xa.append(xx5)
+    yy2=1
+    ya.append(yy2)
+    yy3=10
+    ya.append(yy3)
+    yy4=5
+    ya.append(yy4)
+    yy5=6
+    ya.append(yy5)
+    ax1.clear()
+    ax1.plot(xa,ya)
+    
+fig=plt.figure()
+ax1=fig.add_subplot(1,1,1)
+
+def graph_plotting():
+    print("graph")
+    global xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15
+    global yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15
+    
+    ani=animation.FuncAnimation(fig,animate,interval=1000)
+    plt.show()
+    #plt.plot([xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15],[yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15])
+    '''    
+    xa=[]
+    ya=[]
+    xx2=2
+    xa.append(xx2)
+    xx3=3
+    xa.append(xx3)
+    xx4=1
+    xa.append(xx4)
+    xx5=2
+    xa.append(xx5)
+    yy2=1
+    ya.append(yy2)
+    yy3=3
+    ya.append(yy3)
+    yy4=5
+    ya.append(yy4)
+    yy5=6
+    ya.append(yy5)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    '''
+    #plt.plot(xa,ya)
+    #plt.show()
+    
+
+
 def printx():
     global running1
     global i
@@ -649,7 +717,7 @@ def printx():
         time.sleep(1)
 
 
-
+'''
 def printx():
     global running1
     global i
@@ -744,7 +812,7 @@ if Kill==0:
     except socket.error as err:
         print ("socket creation failed with error ")
 
-    
+'''    
 def printx():
     global running1
     global i
@@ -752,7 +820,9 @@ def printx():
     global k
     global l
     global m
-    global z1,z2,z3,z4,z5,z6,z7
+    global z1,z2,z3,z4,z5,z6,z7,z8,z9
+    global xx1,xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15
+    global yy1,yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,xx15
     while True:    
         sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
         #while True:
@@ -772,10 +842,48 @@ def printx():
             z5=float(scamx[9])
             z6=float(scamx[10])
             z7=float(scamx[11])
+            z8=float(scamx[12])
+            z9=float(scamx[13])
+            
+            xx1=float(scamx[14])
+            yy1=float(scamx[15])
+            xx2=float(scamx[16])
+            yy2=float(scamx[17])
+            xx3=float(scamx[18])
+            yy3=float(scamx[19])
+            
+            xx4=float(scamx[20])
+            yy4=float(scamx[21])
+            xx5=float(scamx[22])
+            yy5=float(scamx[23])
+            xx6=float(scamx[24])
+            yy6=float(scamx[25])
+            
+            xx7=float(scamx[26])
+            yy7=float(scamx[27])
+            xx8=float(scamx[28])
+            yy8=float(scamx[29])
+            xx9=float(scamx[30])
+            yy9=float(scamx[31])
+            
+            xx10=float(scamx[32])
+            yy10=float(scamx[33])
+            xx11=float(scamx[34])
+            yy11=float(scamx[35])
+            xx12=float(scamx[36])
+            yy12=float(scamx[37])
+
+            xx13=float(scamx[38])
+            yy13=float(scamx[39])
+            xx14=float(scamx[40])
+            yy14=float(scamx[41])
+            xx15=float(scamx[42])
+            xx15=float(scamx[43])
+            
             
         except:
             pass
-    
+'''    
 ##############################################################################
 
         
@@ -815,6 +923,7 @@ class MyWindowClass(QMainWindow, form_class):
         self.pushButton_6.clicked.connect(self.pbChange1)
         self.pushButton_7.clicked.connect(self.pbChange2)
         self.pushButton_8.clicked.connect(self.pbChange3)
+        self.pushButton_9.clicked.connect(self.plotting_graph)
         self.window_width = self.ImgWidget.frameSize().width()
         self.window_height = self.ImgWidget.frameSize().height()
         self.ImgWidget = OwnImageWidget(self.ImgWidget)       
@@ -823,6 +932,44 @@ class MyWindowClass(QMainWindow, form_class):
         self.timer.timeout.connect(self.update_frame)
         self.timer.timeout.connect(self.update_lcd)
         self.timer.start(1)
+
+    
+
+    def plotting_graph(self):
+        graph_plotting()
+        
+
+        
+        global xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15
+        global yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15
+        '''
+        plt.plot([xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15],[yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15])
+        '''
+        '''
+        xa=[]
+        ya=[]
+        xx2=2
+        xa.append(xx2)
+        xx3=3
+        xa.append(xx3)
+        xx4=1
+        xa.append(xx4)
+        xx5=2
+        xa.append(xx5)
+        yy2=1
+        ya.append(yy2)
+        yy3=3
+        ya.append(yy3)
+        yy4=5
+        ya.append(yy4)
+        yy5=6
+        ya.append(yy5)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        
+        plt.plot(xa,ya)
+        plt.show()
+        '''
 
     def maar_daala(self):
         global Kill
@@ -842,6 +989,7 @@ class MyWindowClass(QMainWindow, form_class):
     def pbChange3(self):
         global pbValue
         pbValue=3
+        
         print(pbValue)
         
 
