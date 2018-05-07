@@ -13,7 +13,10 @@ class ESPMaster {
     uint8_t _ss_pin;
 
   public:
-    ESPMaster(uint8_t pin): _ss_pin(pin) {}
+    ESPMaster(uint8_t pin): _ss_pin(pin) {
+      Serial.print("PIN =");
+      Serial.println(pin);
+      }
     void begin() 
     {
       pinMode(_ss_pin, OUTPUT);

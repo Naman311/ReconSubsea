@@ -159,7 +159,7 @@ void loop()
       {
         if(connectStatus==false)
         {
-          if (!client.connect("192.168.4.1", httpPort)) 
+          if (!client.connect("192.168.0.4", httpPort)) 
           {
             Serial.println("connection failed");
             flag=0;
@@ -207,7 +207,7 @@ void loop()
         if(connectStatus==false)
         {
           // Use WiFiClient class to create TCP connections
-          if (!client.connect("192.168.4.1", httpPort)) 
+          if (!client.connect("192.168.0.4", httpPort)) 
           {
             Serial.println("connection failed");
             flag=0;
