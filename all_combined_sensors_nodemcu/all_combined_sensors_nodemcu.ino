@@ -17,7 +17,7 @@
 15.RIGHT CLICK
 */
 const float SensorOffset = 39;
-int prev=0;
+
 // Ethernet header
 #include <Ethernet.h> //Load Ethernet Library
 #include <EthernetUdp.h> //Load UDP Library
@@ -51,16 +51,75 @@ float tc, tf, h;
 #include "I2Cdev.h"
 
 #include "MPU6050_6Axis_MotionApps20.h"
+//#include "MPU6050.h" // not necessary if using MotionApps include file
 
+// Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
+// is used in I2Cdev.h
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     #include "Wire.h"
 #endif
 
+// class default I2C address is 0x68
+// specific I2C addresses may be passed as a parameter here
+// AD0 low = 0x68 (default for SparkFun breakout and InvenSense evaluation board)
+// AD0 high = 0x69
 MPU6050 mpu;
+//MPU6050 mpu(0x69); // <-- use for AD0 high
+
+/* =========================================================================
+   NOTE: In addition to connection 3.3v, GND, SDA, and SCL, this sketch
+   depends on the MPU-6050's INT pin being connected to the Arduino's
+   external interrupt #0 pin. On the Arduino Uno and Mega 2560, this is
+   digital I/O pin 2.
+ * ========================================================================= */
+
+/* =========================================================================
+   NOTE: Arduino v1.0.1 with the Leonardo board generates a compile error
+   when using Serial.write(buf, len). The Teapot output uses this method.
+   The solution requires a modification to the Arduino USBAPI.h file, which
+   is fortunately simple, but annoying. This will be fixed in the next IDE
+   release. For more info, see these links:
+
+   http://arduino.cc/forum/index.php/topic,109987.0.html
+   http://code.google.com/p/arduino/issues/detail?id=958
+ * ========================================================================= */
 
 
+
+// uncomment "OUTPUT_READABLE_QUATERNION" if you want to see the actual
+// quaternion components in a [w, x, y, z] format (not best for parsing
+// on a remote host such as Processing or something though)
+//#define OUTPUT_READABLE_QUATERNION
+
+// uncomment "OUTPUT_READABLE_EULER" if you want to see Euler angles
+// (in degrees) calculated from the quaternions coming from the FIFO.
+// Note that Euler angles suffer from gimbal lock (for more info, see
+// http://en.wikipedia.org/wiki/Gimbal_lock)
+//#define OUTPUT_READABLE_EULER
+
+// uncomment "OUTPUT_READABLE_YAWPITCHROLL" if you want to see the yaw/
+// pitch/roll angles (in degrees) calculated from the quaternions coming
+// from the FIFO. Note this also requires gravity vector calculations.
+// Also note that yaw/pitch/roll angles suffer from gimbal lock (for
+// more info, see: http://en.wikipedia.org/wiki/Gimbal_lock)
 #define OUTPUT_READABLE_YAWPITCHROLL
 
+// uncomment "OUTPUT_READABLE_REALACCEL" if you want to see acceleration
+// components with gravity removed. This acceleration reference frame is
+// not compensated for orientation, so +X is always +X according to the
+// sensor, just without the effects of gravity. If you want acceleration
+// compensated for orientation, us OUTPUT_READABLE_WORLDACCEL instead.
+//#define OUTPUT_READABLE_REALACCEL
+
+// uncomment "OUTPUT_READABLE_WORLDACCEL" if you want to see acceleration
+// components with gravity removed and adjusted for the world frame of
+// reference (yaw is relative to initial orientation, since no magnetometer
+// is present in this case). Could be quite handy in some cases.
+//#define OUTPUT_READABLE_WORLDACCEL
+
+// uncomment "OUTPUT_TEAPOT" if you want output that matches the
+// format used for the InvenSense teapot demo
+//#define OUTPUT_TEAPOT
 
 
 
@@ -104,6 +163,22 @@ float sum1,sum2=0,sum3=0;
 ///////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+/////////////////////////////////pressure sensor//////////////////////////////////////////////////////////////
+#include <Wire.h>
+#include <SPI.h>
+const int spi_ss = 10;   // for slave select
+uint8_t byte_0, byte_1, byte_2; // for taking the input in bits
+uint32_t spi_bytes; // to add all the bits by bitshift method
+float vo; //convert the bits in voltage
+float vr = 5;
+float pp=0; //for storing the value of presure
+float vt=0;
+float t=0;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
 
 // Etherner init
 int t1=0;int t2=-1;int t3=4;int t4=2;
@@ -150,7 +225,7 @@ String converstion(int t1,int t2,int t3,int t4,int v1,float y,float p,float r,fl
   return (result);
   }
 // function to covert string to int array
-float nos[18];
+float nos[17];
 int nNos=-1;  
 
 void addNos(String data)
@@ -174,6 +249,8 @@ void addNos(String data)
       ss+=data[i];
     }
   }  
+  //for(int i=0;i<=nNos;i++){Serial.print(nos[i]);Serial.print(",");}
+  //Serial.println();
 }
 
 // function to control thrusters
@@ -189,7 +266,10 @@ void thruster_movement()
   {
     signal = map(nos[1],1,10,1501,1900);
   }
-
+  // thruster code
+  //int signal = 1100; // Set signal value, which should be between 1100 and 1900
+  //Serial.println(nos[1]);
+  //Serial.println(signal);
   servo.writeMicroseconds(signal); // Send signal to ESC.
 }
 void move_down()
@@ -310,92 +390,6 @@ void movement()
   {
     move_right();
   }
-<<<<<<< HEAD
-}*/
-
-/*
-    GPIO    NodeMCU   Name  |   Uno
-   ===================================
-     15       D8       SS   |   D10
-     13       D7      MOSI  |   D11
-     12       D6      MISO  |   D12
-     14       D5      SCK   |   D13
-*/
-#include <SPI.h>
-
-class ESPMaster {
-  private:
-    uint8_t _ss_pin;
-
-  public:
-    ESPMaster(uint8_t pin): _ss_pin(pin) {}
-    void begin() 
-    {
-      pinMode(_ss_pin, OUTPUT);
-      digitalWrite(_ss_pin, HIGH);
-    }
-    void readData(uint8_t * data) 
-    {
-      digitalWrite(_ss_pin, LOW);
-      SPI.transfer(0x03);
-      SPI.transfer(0x00);
-      for (uint8_t i = 0; i < 32; i++) 
-      {
-        data[i] = SPI.transfer(0);
-      }
-      digitalWrite(_ss_pin, HIGH);
-    }
-
-    void writeData(uint8_t * data, size_t len) 
-    {
-      uint8_t i = 0;
-      digitalWrite(_ss_pin, LOW);
-      SPI.transfer(0x02);
-      SPI.transfer(0x00);
-      while (len-- && i < 32)
-      {
-        SPI.transfer(data[i++]);
-      }
-      while (i++ < 32) 
-      {
-        SPI.transfer(0);
-      }
-      digitalWrite(_ss_pin, HIGH);
-    }
-
-    String readData() 
-    {
-      char data[33];
-      data[32] = 0;
-      readData((uint8_t *)data);
-      return String(data);
-    }
-
-    void writeData(const char * data)
-    {
-      writeData((uint8_t *)data, strlen(data));
-    }
-};
-
-ESPMaster esp(SS);
-
-void send(const char * message) 
-{
-  esp.writeData(message);
-  delay(10);
-  Serial.print("Slave: ");
-  Serial.println(esp.readData());
-  Serial.println();
-}
-
-int incomingByte = 0;   // for incoming serial data
-
-void setup() {
-  // Ethernet setup
-  Serial.begin(115200); //Turn on Serial Port
-  SPI.begin();
-  esp.begin();
-=======
 }
 void setup() {
   // Ethernet setup
@@ -404,18 +398,30 @@ void setup() {
   analogWrite(,0);
   analogWrite(,0);
   Serial.begin(115200); //Turn on Serial Port
->>>>>>> 7327904a6a6abccf9e7a39f86c0bebf6ce6bdfbb
 
 ///////////////////////////HDC1050///////////////////////////////////
 Wire.begin();
+  
+  //Serial.println(hdcSensor.getManufacturerID(), HEX);
+  //Serial.println(hdcSensor.getDeviceID(), HEX);
+  //Serial.println(hdcSensor.getSerialID());
+  //Serial.println(hdcSensor.batteryOK());
 
   hdcSensor.turnOnHeater(true);
   hdcSensor.setTemperatureRes(HDC1050::T_RES_14);
   hdcSensor.setHumidityRes(HDC1050::H_RES_8);
   hdcSensor.updateConfigRegister();
 /////////////////////////////////////////////////////////////////////
-
+/*
+///////////////////////////////pressure sensor///////////////////////////////////////
+ Serial.begin(9600);          
+  pinMode(spi_ss, OUTPUT);     
+  digitalWrite(spi_ss, HIGH);  
+  SPI.begin();    
+/////////////////////////////////////////////////////////////////////////////////////
+*/
 ///////////////////////////MPU6050/////////////////////////////////////////////////////////////
+ // join I2C bus (I2Cdev library doesn't do this automatically)
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
         Wire.begin();
         TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz)
@@ -423,35 +429,72 @@ Wire.begin();
         Fastwire::setup(400, true);
     #endif
 
-
+    // initialize serial communication
+    // (115200 chosen because it is required for Teapot Demo output, but it's
+    // really up to you depending on your project)
+    Serial.begin(9600);
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
-    mpu.initialize();
- mpu.testConnection();
 
+    // NOTE: 8MHz or slower host processors, like the Teensy @ 3.3v or Ardunio
+    // Pro Mini running at 3.3v, cannot handle this baud rate reliably due to
+    // the baud timing being too misaligned with processor ticks. You must use
+    // 38400 or slower in these cases, or use some kind of external separate
+    // crystal solution for the UART timer.
+
+    // initialize device
+  //  Serial.println(F("Initializing I2C devices..."));
+    mpu.initialize();
+
+    // verify connection
+  //  Serial.println(F("Testing device connections..."));
+  //  Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+ mpu.testConnection();
+    // wait for ready
+    //Serial.println(F("\nSend any character to begin DMP programming and demo: "));
+    //while (Serial.available() && Serial.read()); // empty buffer
+    //while (!Serial.available());                 // wait for data
+    //while (Serial.available() && Serial.read()); // empty buffer again
+
+    // load and configure the DMP
+    //Serial.println(F("Initializing DMP..."));
     devStatus = mpu.dmpInitialize();
+
+    // supply your own gyro offsets here, scaled for min sensitivity
+    //mpu.setXGyroOffset(220);
     mpu.setXGyroOffset(0);
     mpu.setYGyroOffset(0);
+    //mpu.setZGyroOffset(-85);
     mpu.setZGyroOffset(0);
     mpu.setZAccelOffset(0); // 1688 factory default for my test chip
 
+    // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
-
+        // turn on the DMP, now that it's ready
+       // Serial.println(F("Enabling DMP..."));
         mpu.setDMPEnabled(true);
 
+        // enable Arduino interrupt detection
+       // Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
         attachInterrupt(0, dmpDataReady, RISING);
         mpuIntStatus = mpu.getIntStatus();
 
+        // set our DMP Ready flag so the main loop() function knows it's okay to use it
+        //Serial.println(F("DMP ready! Waiting for first interrupt..."));
         dmpReady = true;
 
+        // get expected DMP packet size for later comparison
         packetSize1 = mpu.dmpGetFIFOPacketSize();
-    } 
-    else
-    {
+    } else {
+        // ERROR!
+        // 1 = initial memory load failed
+        // 2 = DMP configuration updates failed
+        // (if it's going to break, usually the code will be 1)
         Serial.print(F("DMP Initialization failed (code "));
         Serial.print(devStatus);
         Serial.println(F(")"));
     }
 
+    // configure LED for output
     pinMode(LED_PIN, OUTPUT);
 delay(30000);
 
@@ -459,9 +502,13 @@ delay(30000);
   
   Ethernet.begin(mac, ip); //Initialize Ethernet
   Udp.begin(localPort); //Initialize Udp
+  //delay(1500); //delay
+  
+  // thruster setup
   servo.attach(servoPin);
 
   servo.writeMicroseconds(1500); // send "stop" signal to ESC.
+  //delay(1000); // delay to allow the ESC to recognize the stopped signal
 }
 
 void loop() {
@@ -477,11 +524,22 @@ Voltage = Voltage /1000;
 
 Current = (Voltage -2.5)/ 0.185; // Sensed voltage is converter to current
 
+//Serial.print(“\n Voltage Sensed (V) = “); // shows the measured voltage
+//Serial.print(Voltage,2); // the ‘2’ after voltage allows you to display 2 digits after decimal point
+//Serial.print(“\t Current (A) = “); // shows the voltage measured
+//Serial.print(Current,2); // the ‘2’ after voltage allows you to display 2 digits after decimal point
+
+//delay(1000);
+
 /////////////////////////////////////////////////////////////////////
 
 ////////////////////////////pressure sensor//////////////////////////////////
+    // read the input on analog pin 0:
   float sensorValue = (analogRead(A0)-SensorOffset); //Do maths for calibration
-
+  // print out the value you read:
+  //Serial.print("Air Pressure: ");  
+  //Serial.print(sensorValue,2);
+  //Serial.println(" kPa");
   
 /////////////////////////////////////////////////////////////////////////////
  
@@ -492,47 +550,48 @@ if (!dmpReady) return;
 
     // wait for MPU interrupt or extra packet(s) available
     while (!mpuInterrupt && fifoCount < packetSize1) {
-<<<<<<< HEAD
-
-=======
->>>>>>> 7327904a6a6abccf9e7a39f86c0bebf6ce6bdfbb
     }
 
-
+    // reset interrupt flag and get INT_STATUS byte
     mpuInterrupt = false;
     mpuIntStatus = mpu.getIntStatus();
 
+    // get current FIFO count
     fifoCount = mpu.getFIFOCount();
 
+    // check for overflow (this should never happen unless our code is too inefficient)
     if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
+        // reset so we can continue cleanly
         mpu.resetFIFO();
+        //Serial.println(F("FIFO overflow!"));
 
-
-
+    // otherwise, check for DMP data ready interrupt (this should happen frequently)
     } else if (mpuIntStatus & 0x02) {
-
+        // wait for correct available data length, should be a VERY short wait
         while (fifoCount < packetSize1) fifoCount = mpu.getFIFOCount();
 
-
+        // read a packet from FIFO
         mpu.getFIFOBytes(fifoBuffer, packetSize1);
         
-
+        // track FIFO count here in case there is > 1 packet available
+        // (this lets us immediately read more without waiting for an interrupt)
         fifoCount -= packetSize1;
 
 
 //////////////////////////////////////////////////////   
 if(flag==0)     
-{
-  mpu.dmpGetQuaternion(&q, fifoBuffer);
+{mpu.dmpGetQuaternion(&q, fifoBuffer);
             mpu.dmpGetGravity(&gravity, &q);
             mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-
+            //Serial.print("ypr\t");
             sum1=(ypr[0] * 180/M_PI);
-
+            //Serial.print("\t");
+            //Serial.print(",");
             sum2=(ypr[1] * 180/M_PI);
+            //Serial.print("\t");
+            //Serial.print(",");
             sum3=(ypr[2] * 180/M_PI);
-flag=1;
-}
+flag=1;}
 ///////////////////////////////////////////////////////            
         #ifdef OUTPUT_READABLE_YAWPITCHROLL
             mpu.dmpGetQuaternion(&q, fifoBuffer);
@@ -548,25 +607,14 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   
   temp = tc;
   humidity = h;
-<<<<<<< HEAD
-
 
   internal_pressure = sensorValue,2;
-
-=======
-
-  internal_pressure = sensorValue,2;
->>>>>>> 7327904a6a6abccf9e7a39f86c0bebf6ce6bdfbb
   int t5 = random(10,50);
   int t6=random(10,50);
   v1 = random(30,48);
     
   t1++;t2++;t3++;t4++;
-<<<<<<< HEAD
-   
-=======
  
->>>>>>> 7327904a6a6abccf9e7a39f86c0bebf6ce6bdfbb
   String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure,t6);
   packetSize = Udp.parsePacket(); //Read theh packetSize
   
@@ -576,28 +624,12 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
     datReq=packetBuffer; //Convert packetBuffer array to string datReq
     addNos(datReq);
     Serial.println(datReq);
-    if(nos[17]==1 && prev!=nos[17])
-    {
-      send("1");
-    }
-    else if(nos[17]==2 && prev!=nos[17])
-    {
-      send("2"); 
-    }
-    else if(nos[18]==3 && prev!=nos[17])
-    {
-      send("3");
-    }
-    prev=nos[17];
+
     thruster_movement();
   }
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
-<<<<<<< HEAD
-}
-=======
->>>>>>> 7327904a6a6abccf9e7a39f86c0bebf6ce6bdfbb
 }
 }
