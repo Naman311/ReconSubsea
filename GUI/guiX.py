@@ -834,6 +834,7 @@ print ('Initialized Joystick : %s' % jj.get_name())
 
 
 def get():
+    global pbValue
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]#17
     it = 0 #iterator
     pygame.event.pump()
@@ -862,7 +863,7 @@ def get():
     out[0]=out[0]*10
     out[3]=out[3]*10
     out[4]=out[4]*10
-    out[17]=pbValue
+    out[16]=pbValue
     s=str(out).strip('[]')
     #print(s)
     return s
