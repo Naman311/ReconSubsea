@@ -866,13 +866,14 @@ def get():
     s=str(out).strip('[]')
     #print(s)
     return s
+######################
 if Kill==0:
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         print ("Socket successfully created")
     except socket.error as err:
         print ("socket creation failed with error ")
-
+######################
     
 def printx():
     global running1
@@ -1024,6 +1025,7 @@ class MyWindowClass(QMainWindow, form_class):
         global Kill
         Kill=1
         print(Kill)
+        socket.close()
 
     def pbChange1(self):
         global pbValue
