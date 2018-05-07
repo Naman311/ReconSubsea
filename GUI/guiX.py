@@ -176,6 +176,7 @@ def read_data():
     az=z1
     ay=z2
     ax=z3
+    print(az+" "+ax+" "+ay)
     line_done = 1 
 
 def main():
@@ -629,8 +630,9 @@ def grab(cam, queue, width, height, fps):
         if queue.qsize() < 10:
             queue.put(frame)
         else:
-            print("x")
-            print (queue.qsize())
+            bb=0
+            #print("x")
+            #print (queue.qsize())
 
 def animate(i):
     global xx2,xx3,xx4,xx5,xx6,xx7,xx8,xx9,xx10,xx11,xx12,xx13,xx14,xx15
@@ -693,7 +695,7 @@ def graph_plotting():
     #plt.show()
     
 
-
+'''
 def printx():
     global running1
     global i
@@ -734,6 +736,8 @@ def printx():
         #print(m)
         time.sleep(1)
 
+
+'''
 
 '''
 def printx():
@@ -830,7 +834,7 @@ if Kill==0:
     except socket.error as err:
         print ("socket creation failed with error ")
 
-'''    
+    
 def printx():
     global running1
     global i
@@ -883,10 +887,10 @@ def printx():
             yy14=float(scamx[29])
             yy15=float(scamx[30])
             yy16=float(scamx[31])
-            
-        except:1
+            print(z1+" "+z2+" "+z3)
+        except:
             pass
-'''    
+    
 ##############################################################################
 
         
