@@ -13,7 +13,7 @@ import sys
 import cv2
 import numpy as np
 import threading
-import time
+from time import *
 from multiprocessing import Queue
 import serial
 from pyimagesearch.shapedetector import ShapeDetector
@@ -24,8 +24,11 @@ import pygame
 from pygame.locals import *
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+task1=task2=task3=0
 #ser = serial.Serial('COM1', 9600)
+cb1=cb2=cb3=cb4=cb5=cb5=cb6=cb7=cb8=cb9=cb10=cb11=cb12=cb13=0
+seconds=0
+stopclock=0
 check=0
 pbValue=0
 Kill=0
@@ -934,6 +937,14 @@ def printx():
     
 ##############################################################################
 
+def wakt():
+    global seconds
+    i=0
+    while(i>=0):
+        print(i)
+        i=i+1
+        seconds=i
+        sleep(1)
         
     
 
@@ -972,6 +983,22 @@ class MyWindowClass(QMainWindow, form_class):
         self.pushButton_7.clicked.connect(self.pbChange2)
         self.pushButton_8.clicked.connect(self.pbChange3)
         self.pushButton_9.clicked.connect(self.plotting_graph)
+        self.pushButton_10.clicked.connect(self.timing_control)
+        self.checkBox.stateChanged.connect(self.chkb)
+        self.checkBox_2.stateChanged.connect(self.chkb1)
+        self.checkBox_3.stateChanged.connect(self.chkb2)
+        self.checkBox_4.stateChanged.connect(self.chkb3)
+        self.checkBox_5.stateChanged.connect(self.chkb4)
+        self.checkBox_6.stateChanged.connect(self.chkb5)
+        self.checkBox_7.stateChanged.connect(self.chkb6)
+        self.checkBox_8.stateChanged.connect(self.chkb7)
+        self.checkBox_9.stateChanged.connect(self.chkb8)
+        self.checkBox_10.stateChanged.connect(self.chkb9)
+        self.checkBox_11.stateChanged.connect(self.chkb10)
+        self.checkBox_12.stateChanged.connect(self.chkb11)
+        self.checkBox_13.stateChanged.connect(self.chkb12)
+        #self.checkBox_13.stateChanged.connect(self.chkb12)
+        #self.checkBox.stateChanged.connect(self.chkb)
         self.window_width = self.ImgWidget.frameSize().width()
         self.window_height = self.ImgWidget.frameSize().height()
         self.ImgWidget = OwnImageWidget(self.ImgWidget)       
@@ -981,8 +1008,95 @@ class MyWindowClass(QMainWindow, form_class):
         self.timer.timeout.connect(self.update_lcd)
         self.timer.start(1)
 
-    
+    def chkb(self):
+        global cb1
+        cb1=1
+        print("cb")
+        print(cb1)
+        #self.checkBox.setEnabled(False)
 
+    def chkb1(self):
+        global cb2
+        cb2=1
+        print(cb2)
+        #self.checkBox_2.setEnabled(False)
+
+    def chkb2(self):
+        global cb3
+        cb3=1
+        print(cb3)
+        #self.checkBox_3.setEnabled(False)
+
+    def chkb3(self):
+        global cb4
+        cb4=1
+        print(cb4)
+        #self.checkBox_4.setEnabled(False)
+
+    def chkb4(self):
+        global cb5
+        cb5=1
+        print(cb5)
+        #self.checkBox_5.setEnabled(False)
+
+    def chkb5(self):
+        global cb6
+        global task1
+        cb6=1
+        print(cb6)
+        task1=1
+        #self.checkBox_6.setEnabled(False)
+
+    def chkb6(self):
+        global cb7
+        cb7=1
+        print(cb7)
+        #self.checkBox_7.setEnabled(False)
+
+    def chkb7(self):
+        global cb8
+        cb8=1
+        print(cb8)
+        #self.checkBox_8.setEnabled(False)
+
+    def chkb8(self):
+        global cb9
+        global task2
+        cb9=1
+        print(cb9)
+        task2=1
+        #self.checkBox_9.setEnabled(False)
+
+    def chkb9(self):
+        global cb10
+        cb10=1
+        print(cb10)
+        #self.checkBox_10.setEnabled(False)
+
+    def chkb10(self):
+        global cb11
+        cb11=1
+        print(cb11)
+        #self.checkBox_11.setEnabled(False)
+
+    def chkb11(self):
+        global cb12
+        cb12=1
+        print(cb12)
+        #self.checkBox_12.setEnabled(False)
+
+    def chkb12(self):
+        global cb13
+        global task3
+        cb13=1
+        print(cb13)
+        task3=1
+        #self.checkBox_13.setEnabled(False)
+        
+    def timing_control(self):
+        time_thread.start()
+
+        
     def plotting_graph(self):
         global pbValue
         pbValue=4
@@ -1104,7 +1218,11 @@ class MyWindowClass(QMainWindow, form_class):
         global k
         global l
         global m
+        global seconds
+        global cb1,cb2,cb3,cb4,cb5,cb6,cb7,cb8,cb9,cb10,cb11,cb12,cb13
         global z1,z2,z3,z4,z5,z6
+        global stopclock
+        t=0
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
         self.lcdNumber_3.display(k)
@@ -1117,12 +1235,67 @@ class MyWindowClass(QMainWindow, form_class):
         self.lcdNumber_10.display(yy)
         self.lcdNumber_11.display(z6)
         self.lcdNumber_12.display(z7)
-        stime="3:23"
-        self.lcdNumber_14.display(stime)
-        self.lcdNumber_13.display(stime)
-        stime="0:00"
-        self.lcdNumber_15.display(stime)
-        self.lcdNumber_16.display(stime)
+        stime=0
+        if(stopclock!=1):
+            #print("time")
+            minutes=seconds/60
+            minutes=int(minutes)
+            minutes=str(minutes)
+            #minutes=minutes.toString()
+            sec=seconds%60
+            sec=str(sec)
+            time=minutes+":"+sec
+            self.lcdNumber_14.display(time)
+            t=4
+        if(t==3):
+            #stime=seconds
+            self.lcdNumber_14.display(stime)
+            t=4
+        if(cb1==cb2==cb3==cb4==cb5==1):
+            seconds1=seconds
+
+            minutes1=seconds1/60
+            minutes1=int(minutes1)
+            minutes1=str(minutes1)
+            #minutes=minutes.toString()
+            sec1=seconds1%60
+            sec1=str(sec1)
+            time1=minutes1+":"+sec1
+            
+            cb1=cb2=cb3=cb4=cb5=2
+            t=1
+            self.lcdNumber_13.display(time1)
+        #stime="0:00"
+        if(cb6==cb7==cb8==1):
+            seconds2=seconds
+
+            minutes2=seconds2/60
+            minutes2=int(minutes2)
+            minutes2=str(minutes2)
+            #minutes=minutes.toString()
+            sec2=seconds2%60
+            sec2=str(sec2)
+            time2=minutes2+":"+sec2
+            
+            cb6=cb7=cb8=2
+            t=2
+            self.lcdNumber_15.display(time2)
+            
+        if(cb9==cb10==cb11==cb12==cb13==1):
+            seconds3=seconds
+
+            minutes3=seconds3/60
+            minutes3=int(minutes3)
+            minutes3=str(minutes3)
+            #minutes=minutes.toString()
+            sec3=seconds3%60
+            sec3=str(sec3)
+            time3=minutes3+":"+sec3
+            
+            cb9=cb10=cb11=cb12=cb13=2
+            t=3
+            stopclock=1
+            self.lcdNumber_16.display(time3)
     
         
     def update_frame(self):
@@ -1158,7 +1331,7 @@ detect_thread=threading.Thread(target=detect)
 scam_thread=threading.Thread(target=colour_detect)
 detect_1_thread=threading.Thread(target=colour_detect)
 mpu_thread=threading.Thread(target=main)
-
+time_thread=threading.Thread(target=wakt)
 #print("LODE")
 app = QApplication(sys.argv)
 #print("LODE2")

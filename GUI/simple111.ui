@@ -260,20 +260,6 @@ background-color: rgb(0, 0, 0);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <zorder>lcdNumber</zorder>
-    <zorder>lcdNumber_2</zorder>
-    <zorder>lcdNumber_3</zorder>
-    <zorder>lcdNumber_4</zorder>
-    <zorder>lcdNumber_5</zorder>
-    <zorder>lcdNumber_12</zorder>
-    <zorder>label_4</zorder>
-    <zorder>label_5</zorder>
-    <zorder>label_6</zorder>
-    <zorder>label_7</zorder>
-    <zorder>label_8</zorder>
-    <zorder>label_9</zorder>
-    <zorder>label_10</zorder>
-    <zorder>label_10</zorder>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -719,7 +705,7 @@ background-color: rgb(0, 0, 0);</string>
       <rect>
        <x>20</x>
        <y>10</y>
-       <width>131</width>
+       <width>71</width>
        <height>61</height>
       </rect>
      </property>
@@ -727,17 +713,33 @@ background-color: rgb(0, 0, 0);</string>
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#ed1c24;&quot;&gt;Timer&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLCDNumber" name="lcdNumber_14">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>130</x>
        <y>10</y>
        <width>141</width>
        <height>61</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_10">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>10</y>
+       <width>75</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(225, 225, 225);</string>
+     </property>
+     <property name="text">
+      <string>Start</string>
      </property>
     </widget>
    </widget>
