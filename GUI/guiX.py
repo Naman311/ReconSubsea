@@ -1105,6 +1105,7 @@ class MyWindowClass(QMainWindow, form_class):
         global l
         global m
         global z1,z2,z3,z4,z5,z6
+        global xx,yy
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
         self.lcdNumber_3.display(k)

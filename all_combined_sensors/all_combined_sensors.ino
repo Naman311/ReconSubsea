@@ -36,7 +36,7 @@ double Voltage = 0;
 double Current = 0;
 
 ///////////////////////////////////////////
-
+/*
 /////////////////HDC1050///////////////////
 #include <Wire.h>
 #include <HDC1050.h>
@@ -45,6 +45,7 @@ double Current = 0;
 // HDC1050 init
 HDC1050 hdcSensor;
 float tc, tf, h;
+*/
 ////////////////////////////////////////////
 
 ////////////////MPU6050////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,7 +252,7 @@ void addNos(String data)
   //for(int i=0;i<=nNos;i++){Serial.print(nos[i]);Serial.print(",");}
   //Serial.println();
 }
-
+/*
 // function to control thrusters
 void thruster_movement()
 {
@@ -269,7 +270,7 @@ void thruster_movement()
   //Serial.println(nos[1]);
   //Serial.println(signal);
   servo.writeMicroseconds(signal); // Send signal to ESC.
-}
+}*/
 /*void move_down()
 {
   int signal=map(nos[1],1,10,1501,1900);
@@ -354,7 +355,7 @@ void movement()
 void setup() {
   // Ethernet setup
   Serial.begin(9600); //Turn on Serial Port
-
+/*
 ///////////////////////////HDC1050///////////////////////////////////
 Wire.begin();
   
@@ -577,7 +578,7 @@ flag=1;}
             r=ypr[2] * 180/M_PI-sum3;
         #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////
-  
+/*  
 tf = hdcSensor.getTemperatureHumidity(tc, h);
   
   temp = tc;
@@ -587,8 +588,9 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   //Serial.print(tf);
   //Serial.print("  ");
   //Serial.println(h);
-
-
+*/
+  temp=23.5;
+  humidity=99.8;
   internal_pressure = sensorValue,2;
   //y = random(10,50);
   //p = random(10,50);
@@ -633,7 +635,7 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
     addNos(datReq);
     Serial.println(datReq);
 
-    thruster_movement();
+    //thruster_movement();
   }
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
   Udp.print(output); //Send string back to client 
