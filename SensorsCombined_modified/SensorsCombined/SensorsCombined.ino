@@ -632,8 +632,8 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   //Serial.print("  ");
   //Serial.println(h);
 
-
-  internal_pressure = sensorValue,2;
+*/
+  internal_pressure = sensorValue,2;/*
   //y = random(10,50);
   //p = random(10,50);
   //r = random(10,50);
