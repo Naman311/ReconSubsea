@@ -892,6 +892,7 @@ def printx():
     global yy,yy1,yy2,yy3,yy4,yy5,yy6,yy7,yy8,yy9,yy10,yy11,yy12,yy13,yy14,yy15,yy16
     while True:    
         sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+        print("SENT")
         #while True:
         try:
             scam, server = sock.recvfrom(4096)
@@ -1221,12 +1222,9 @@ class MyWindowClass(QMainWindow, form_class):
         global seconds
         global cb1,cb2,cb3,cb4,cb5,cb6,cb7,cb8,cb9,cb10,cb11,cb12,cb13
         global z1,z2,z3,z4,z5,z6
-<<<<<<< HEAD
         global stopclock
         t=0
-=======
         global xx,yy
->>>>>>> 628f0c5e73ca33df9df28002c89099cf7835de78
         self.lcdNumber.display(i)
         self.lcdNumber_2.display(j)
         self.lcdNumber_3.display(k)

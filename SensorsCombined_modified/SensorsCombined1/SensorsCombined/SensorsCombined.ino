@@ -390,9 +390,8 @@ void setup() {
     // initialize serial communication
     // (115200 chosen because it is required for Teapot Demo output, but it's
     // really up to you depending on your project)
-    Serial.begin(9600);
+    //Serial.begin(9600);
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
-
     // NOTE: 8MHz or slower host processors, like the Teensy @ 3.3v or Ardunio
     // Pro Mini running at 3.3v, cannot handle this baud rate reliably due to
     // the baud timing being too misaligned with processor ticks. You must use
@@ -461,7 +460,7 @@ delay(30000);
   Ethernet.begin(mac, ip); //Initialize Ethernet
   Udp.begin(localPort); //Initialize Udp
   //delay(1500); //delay
-  
+ 
   // thruster setup
   /*servo.attach(servoPin);
 
@@ -522,7 +521,8 @@ if (!dmpReady) return;
         //Serial.println(F("FIFO overflow!"));
 
     // otherwise, check for DMP data ready interrupt (this should happen frequently)
-    } else if (mpuIntStatus & 0x02) {
+    } 
+    else if (mpuIntStatus & 0x02) {
         // wait for correct available data length, should be a VERY short wait
         while (fifoCount < packetSize1) fifoCount = mpu.getFIFOCount();
 
@@ -676,6 +676,7 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
     Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE); //Reading the data request on the Udp
     datReq=packetBuffer; //Convert packetBuffer array to string datReq
     addNos(datReq);
+
     Serial.println(datReq);
 
     //thruster_movement();
