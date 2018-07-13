@@ -2,6 +2,7 @@
 #include <EthernetUdp.h> //Load UDP Library
 #include <SPI.h> //Load the SPI Library
 #define UDP_TX_PACKET_MAX_SIZE 70 //increase UDP size
+#include <Servo.h>
 
 int t1=0;int t2=-1;int t3=4;int t4=2;
 int v1=0; long y=0;long p=0; long r=0;
@@ -42,38 +43,59 @@ char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 String datReq; //String for our data
 int packetSize; //Size of Packet
 EthernetUDP Udp; //Define UDP Object
+float nos[17];
+int nNos=-1;  
 
-void setup() {
-  
-Serial.begin(9600); //Turn on Serial Port
-Ethernet.begin(mac, ip); //Initialize Ethernet
-Udp.begin(localPort); //Initialize Udp
-delay(1500); //delay
+void addNos(String data)
+{
+  nNos=-1;
+  String ss="";
+  for(int i=0;i<data.length();i++)
+  {
+    if(data[i]==',')
+    { nos[++nNos]=ss.toFloat();
+      ss="";
+    }
+    else if(i==data.length()-1)
+    { ss+=data[i];
+      nos[++nNos]=ss.toFloat();
+      ss="";
+      break;
+    }
+    else 
+    {
+      ss+=data[i];
+    }
+  }  
+}
+void setup() 
+{
+  Serial.begin(9600); //Turn on Serial Port
+  Ethernet.begin(mac, ip); //Initialize Ethernet
+  Udp.begin(localPort); //Initialize Udp
+  delay(1500); //delay
 }
 
 void loop() {
   temp = random(15,30);
   humidity = random(10,300);
- 
   internal_pressure = random(50,200);
   y = random(10,50);
   p = random(10,50);
   r = random(10,50);
-  
   v1 = random(30,48);
-    
   t1++;t2++;t3++;t4++;
   String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure);
   packetSize = Udp.parsePacket(); //Read theh packetSize
-  
-  if(packetSize>0){ //Check to see if a request is present
-  Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE); //Reading the data request on the Udp
-  datReq=packetBuffer; //Convert packetBuffer array to string datReq
-  Serial.println(datReq);
-  
+  if(packetSize>0)
+  { 
+    //Check to see if a request is present
+    Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE); //Reading the data request on the Udp
+    datReq=packetBuffer; //Convert packetBuffer array to string datReq
+    Serial.println(datReq);
   }
-    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
-    Udp.print(output); //Send string back to client 
-    Udp.endPacket(); //Packet has been sent
+  Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
+  Udp.print(output); //Send string back to client 
+  Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
 }

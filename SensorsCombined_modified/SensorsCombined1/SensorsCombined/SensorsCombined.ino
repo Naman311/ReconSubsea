@@ -662,7 +662,6 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
   Serial.print(temp);
   Serial.print(',');
   Serial.print(humidity);
-  Serial.print(',');
   Serial.print(internal_pressure);
   Serial.print(',');
   Serial.println(t6);

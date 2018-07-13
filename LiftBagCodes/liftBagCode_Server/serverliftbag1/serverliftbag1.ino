@@ -51,7 +51,7 @@ void loop()
           if(buf==1)
           {
               ss="1\r";
-              }
+          }
           else if (buf==2)
           {
               digitalWrite(in, LOW);

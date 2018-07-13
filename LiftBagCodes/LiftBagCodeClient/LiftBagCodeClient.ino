@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <string>
 const char* ssid="LiftBag";
-const char* host="192.168.0.4";
+const char* host="192.168.4.1";
 WiFiClient client;
 bool connectStatus=false;
 
@@ -61,7 +61,8 @@ void loop() {
   
   int data=0;                                                     //replace d with switch case
   
-  if(data==0&&connectStatus==false)connecthotspot();
+  if(data==0&&connectStatus==false)
+  connecthotspot();
   String ss="";
   if(client.connect(host,80))
   {
@@ -69,7 +70,8 @@ void loop() {
     while(client.connected())
     {
       data=switchh();
-      if(data==0)data=1;
+      if(data==0)
+      data=1;
       Serial.println("Sending "+String(data));
       String d=String(data);
       client.println(d);                                        //sends the integer

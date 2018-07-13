@@ -47,6 +47,10 @@ def get():
         out[0]=0.0
     else:
         out[1]=0.0
+    if(abs(out[3])>abs(out[4])):
+        out[4]=0.0
+    else:
+        out[3]=0.0
     if(out[1]==0.1 or out[1]==-0.1):
         out[1]=0.0
     if(out[0]==0.1 or out[0]==-0.1):
@@ -56,25 +60,31 @@ def get():
     if(out[4]==0.1 or out[4]==-0.1):
         out[4]=0.0
     out[1]=out[1]*10
+    out[0]=out[0]*10
+    out[4]=out[4]*10
+    out[3]=out[3]*10
+    out[2 ]=out[2]*10
     s=str(out).strip('[]')
-    #print(s)
+    print(s)
     return s
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-while True:    
+while True:
+    
     # Send data
     #get()
     #print("x")
     sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
+    
     #while True:
     try:
         # Receive response
     #print("try")
         data, server = sock.recvfrom(4096)
     #print('y')
-        print(data.decode())
+        #print(data.decode())
     except:
     
-        #print("Data is passed")
+        print("Data is passed")
         pass
-    
-    #time.sleep(0.1)
+    #sock.close()
+    time.sleep(0.1)

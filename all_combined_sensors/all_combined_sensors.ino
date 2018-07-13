@@ -633,12 +633,13 @@ tf = hdcSensor.getTemperatureHumidity(tc, h);
     Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE); //Reading the data request on the Udp
     datReq=packetBuffer; //Convert packetBuffer array to string datReq
     addNos(datReq);
-    Serial.println(datReq);
+    //Serial.println(datReq);
 
     //thruster_movement();
   }
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());  //Initialize Packet send
   Udp.print(output); //Send string back to client 
+  Serial.println(output);
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
   //delay(100);
