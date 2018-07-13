@@ -1,3 +1,4 @@
+// THRUSTER MANU ETHERNET RETURN RANDOM
 //ll=3
 //bl=4
 //fl=5
@@ -214,6 +215,7 @@ void manu_move()
     digitalWrite(inputPin2, LOW);
     digitalWrite(inputPin1, HIGH);
     delay(1500);
+    //GALTI HO SAKTI HAI
   }
   else if(nos[6]==1)
   {
