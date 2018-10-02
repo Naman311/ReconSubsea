@@ -17,7 +17,7 @@ print ('Initialized Joystick : %s' % j.get_name())
 2.Left analog y axis
 3.LT +ve RT -ve
 4.Right y axis
-5.Right x axis
+/5.Right x axis
 6.A
 7.B
 8.X
@@ -33,6 +33,7 @@ print ('Initialized Joystick : %s' % j.get_name())
 def get():
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     it = 0 #iterator
+
     pygame.event.pump()
     
     #Read input from the two joysticks       

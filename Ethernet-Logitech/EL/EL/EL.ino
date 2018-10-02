@@ -3,7 +3,7 @@
 #include <SPI.h> //Load the SPI Library
 #define UDP_TX_PACKET_MAX_SIZE 70 //increase UDP size
 #include <Servo.h>
-int flip=1;
+
 int t1=0;int t2=-1;int t3=4;int t4=2;
 int v1=0; long y=0;long p=0; long r=0;
 long temp; 
@@ -77,12 +77,12 @@ Servo servo2;
 Servo servo3;
 Servo servo4;
 Servo servo5;
-byte servoPin=2;
-byte servoPin1=3;
-byte servoPin2=5;
-byte servoPin3=6;
-byte servoPin4=7;
-byte servoPin5=8;
+byte servoPin=7;
+byte servoPin1=8;
+byte servoPin2=6;
+byte servoPin3=5;
+byte servoPin4=3;
+byte servoPin5=2;
 
 void thruster_movement()
 {Serial.println("scam tm");
@@ -93,34 +93,25 @@ void thruster_movement()
     servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
     servo2.writeMicroseconds(signal);
-    //servo3.writeMicroseconds(signal);
-    //servo4.writeMicroseconds(signal);
-    //servo5.writeMicroseconds(signal);
-  }
-  else if(nos[2]>0)
-  {Serial.println("aaaaaaaaaaaa");
-    signal=map(nos[2],1,10,1500,1200);
-    //servo.writeMicroseconds(signal);
-    //servo1.writeMicroseconds(signal);
-    //servo2.writeMicroseconds(signal);
     servo3.writeMicroseconds(signal);
     servo4.writeMicroseconds(signal);
     servo5.writeMicroseconds(signal);
   }
-  else if(nos[5]>0)
-  {flip=1;
-    }
-  else if(nos[6]>0)
-  {flip=2;
-    }
-  else{
-    Serial.println("qqqqqqqqqqq");
-    if(flip==1)
-    {
+  else if(nos[2]>0)
+  {Serial.println("aaaaaaaaaaaa");
+    signal=map(nos[2],1,10,1500,1200);
     servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
-    servo2.writeMicroseconds(signal);}
-    else if(flip==2)
+    servo2.writeMicroseconds(signal);
+    servo3.writeMicroseconds(signal);
+    servo4.writeMicroseconds(signal);
+    servo5.writeMicroseconds(signal);
+  }
+  else{
+    Serial.println("qqqqqqqqqqq");
+    servo.writeMicroseconds(signal);
+    servo1.writeMicroseconds(signal);
+    servo2.writeMicroseconds(signal);
     servo3.writeMicroseconds(signal);
     servo4.writeMicroseconds(signal);
     servo5.writeMicroseconds(signal);

@@ -37,7 +37,7 @@ String converstion(int t1,int t2,int t3,int t4,int v1,long y,long p,long r,long 
   return (result);
   }
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE}; //Assign a mac address
-IPAddress ip(169, 254, 234, 100); //Assign my IP adress
+IPAddress ip(169,254,234,100); //Assign my IP adress
 unsigned int localPort = 5000; //Assign a Port to talk over
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 String datReq; //String for our data
@@ -70,7 +70,7 @@ void addNos(String data)
 }
 void setup() 
 {
-  Serial.begin(9600); //Turn on Serial Port
+  Serial.begin(9600); //Turn on Serial Portu
   Ethernet.begin(mac, ip); //Initialize Ethernet
   Udp.begin(localPort); //Initialize Udp
   delay(1500); //delay
@@ -83,7 +83,6 @@ void loop() {
   y = random(10,50);
   p = random(10,50);
   r = random(10,50);
-  v1 = random(30,48);
   t1++;t2++;t3++;t4++;
   String output= converstion(t1,t2,t3,t4,v1,y,p,r,temp,humidity,internal_pressure);
   packetSize = Udp.parsePacket(); //Read theh packetSize

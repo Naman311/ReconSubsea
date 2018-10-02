@@ -74,9 +74,9 @@ void addNos(String data)
 Servo servo;
 Servo servo1;
 Servo servo2;
-byte servoPin=7;
-byte servoPin1=8;
-byte servoPin2=9;
+byte servoPin=2;
+byte servoPin1=3;
+byte servoPin2=5;
 
 void thruster_movement()
 {Serial.println("scam tm");
