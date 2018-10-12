@@ -6,17 +6,17 @@
 //fl=5
 //rr=6
 //fr=7
-//byte servoPin = 8;5
+//byte servoPin = 3;9
 //Servo servo;
-//byte servoPin1 = 7;3
+//byte servoPin1 = 5;10
 //Servo servo1;
-//byte servoPin2 = 6;2
+//byte servoPin2 = 6;11
 //Servo servo2;
-byte servoPin3 = 8;
+byte servoPin3 = 3;
 Servo servo3;
-byte servoPin4 = 7;
+byte servoPin4 = 5;
 Servo servo4;
-byte servoPin5 = 6;
+byte servoPin5 =6;
 Servo servo5;
 
 /*byte servoPin2 = 12;
