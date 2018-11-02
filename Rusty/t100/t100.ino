@@ -86,10 +86,15 @@ void loop()
   servo.writeMicroseconds(signal);
   servo1.writeMicroseconds(signal);
   servo2.writeMicroseconds(signal);
+  servo3.writeMicroseconds(signal);
+  servo4.writeMicroseconds(signal);
+  servo5.writeMicroseconds(signal);
   delay(2000);
   signal=1500;
   servo.writeMicroseconds(signal);
   servo1.writeMicroseconds(signal);
-  servo2.writeMicroseconds(signal);
+  servo2.writeMicroseconds(signal);servo3.writeMicroseconds(signal);
+  servo4.writeMicroseconds(signal);
+  servo5.writeMicroseconds(signal);
   delay(2000);
 }
