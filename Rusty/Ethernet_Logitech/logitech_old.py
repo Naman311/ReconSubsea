@@ -66,7 +66,7 @@ def get():
     out[3]=out[3]*10
     out[2 ]=out[2]*10
     s=str(out).strip('[]')
-    print(s)
+    print(out)
     return s
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 while True:

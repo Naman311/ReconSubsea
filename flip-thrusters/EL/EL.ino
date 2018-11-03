@@ -3,7 +3,7 @@
 #include <SPI.h> //Load the SPI Library
 #define UDP_TX_PACKET_MAX_SIZE 70 //increase UDP size
 #include <Servo.h>
-int flip=1;
+int flip=0;
 int t1=0;int t2=-1;int t3=4;int t4=2;
 int v1=0; long y=0;long p=0; long r=0;
 long temp; 
@@ -78,18 +78,21 @@ Servo servo3;
 Servo servo4;
 Servo servo5;
 byte servoPin=3;
-byte servoPin1=4;
-byte servoPin2=5;
-byte servoPin3=6;
-byte servoPin4=7;
-byte servoPin5=8;
+byte servoPin1=5;
+byte servoPin2=6;
+byte servoPin3=9;
+byte servoPin4=10;
+byte servoPin5=11;
 
 void thruster_movement()
-{Serial.println("scam tm");
+{int signal=1500;
+
+  /*
+  Serial.println("scam tm");
   int signal=1500;
   if(nos[2]<0)
   {Serial.println("zzzzzzzzzzzz");
-    signal=map(nos[2],-1,-10,1500,1600);
+    signal=map(nos[2],-1,-10,1500,1800);
     servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
     servo2.writeMicroseconds(signal);
@@ -99,22 +102,38 @@ void thruster_movement()
   }
   else if(nos[2]>0)
   {Serial.println("aaaaaaaaaaaa");
-    signal=map(nos[2],1,10,1500,1400);
+    signal=map(nos[2],1,10,1500,1200);
     //servo.writeMicroseconds(signal);
     //servo1.writeMicroseconds(signal);
     //servo2.writeMicroseconds(signal);
     servo3.writeMicroseconds(signal);
     servo4.writeMicroseconds(signal);
     servo5.writeMicroseconds(signal);
-  }
-  else if(nos[5]>0)
+  }*/
+  if(nos[5]>0)
   {flip=1;
   Serial.println("Flip1");
-    }
+  if(nos[2]<0)
+  {signal=map(nos[2],-1,-10,1500,1800);
+    servo.writeMicroseconds(signal);
+    servo1.writeMicroseconds(signal);
+    servo2.writeMicroseconds(signal);
+    Serial.print("scam 1");}}
   else if(nos[6]>0)
   {flip=2;
   Serial.println("Flip2");
+  if(nos[2]>0)
+  {signal=map(nos[2],1,10,1500,1200);
+    servo3.writeMicroseconds(signal);
+    servo4.writeMicroseconds(signal);
+    servo5.writeMicroseconds(signal);
+    Serial.println(" scam 2");}
+  }
+  else
+  {flip=0;
+  Serial.println("scam 3");
     }
+    /*
   else{
     //Serial.println("qqqqqqqqqqq");
     if(flip==1)
@@ -126,7 +145,7 @@ void thruster_movement()
     servo3.writeMicroseconds(signal);
     servo4.writeMicroseconds(signal);
     servo5.writeMicroseconds(signal);
-    }
+    }*/
   
 }
 

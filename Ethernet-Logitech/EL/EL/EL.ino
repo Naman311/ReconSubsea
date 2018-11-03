@@ -77,33 +77,33 @@ Servo servo2;
 Servo servo3;
 Servo servo4;
 Servo servo5;
-byte servoPin=7;
-byte servoPin1=8;
+byte servoPin=3;
+byte servoPin1=5;
 byte servoPin2=6;
-byte servoPin3=5;
-byte servoPin4=3;
-byte servoPin5=2;
+byte servoPin3=4;
+byte servoPin4=7;
+byte servoPin5=8 ;
 
 void thruster_movement()
 {Serial.println("scam tm");
   int signal=1500;
   if(nos[2]<0)
   {Serial.println("zzzzzzzzzzzz");
-    signal=map(nos[2],-1,-10,1500,1800);
+    signal=map(nos[2],-1,-10,1500,1600);
     servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
     servo2.writeMicroseconds(signal);
-    servo3.writeMicroseconds(signal);
+    /*servo3.writeMicroseconds(signal);
     servo4.writeMicroseconds(signal);
     servo5.writeMicroseconds(signal);
-  }
+  */}
   else if(nos[2]>0)
   {Serial.println("aaaaaaaaaaaa");
-    signal=map(nos[2],1,10,1500,1200);
-    servo.writeMicroseconds(signal);
+    signal=map(nos[2],1,10,1500,1400);
+    /*servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
     servo2.writeMicroseconds(signal);
-    servo3.writeMicroseconds(signal);
+    */servo3.writeMicroseconds(signal);
     servo4.writeMicroseconds(signal);
     servo5.writeMicroseconds(signal);
   }
