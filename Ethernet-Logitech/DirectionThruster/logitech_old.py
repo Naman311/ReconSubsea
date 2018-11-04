@@ -44,11 +44,6 @@ def get():
     for i in range(0, j.get_numbuttons()):
         out[it] = j.get_button(i)
         it+=1
-    for i in range(0,len(out)):
-        if out[i]==-0.0:
-            out[i]=0
-    
-    #print(out)
     if(abs(out[1])>abs(out[0])):
         out[0]=0.0
     else:
@@ -69,29 +64,23 @@ def get():
     out[0]=out[0]*10
     out[4]=out[4]*10
     out[3]=out[3]*10
-    out[2]=out[2]*10
+    out[2 ]=out[2]*10
     s=str(out).strip('[]')
-    s=s.strip()
-    print(s)
+    print(out)
     return s
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(('',5000))
-#sock.settimeout(1)
 while True:
-    #get()
-  
-    # Send data
+#    get()
+ # Send data
     #get()
     #print("x")
-    
+    sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
     
     #while True:
     try:
         # Receive response
     #print("try")
-        sent= sock.sendto(bytes(get(), "utf-8"), (server_address))
-        time.sleep(0.001)
-        data,address= sock.recvfrom(4096)
+        data, server = sock.recvfrom(4096)
     #print('y')
         #print(data.decode())
     except:
@@ -100,3 +89,4 @@ while True:
         pass
     #sock.close()
     time.sleep(0.1)
+

@@ -38,7 +38,7 @@ String converstion(int t1,int t2,int t3,int t4,int v1,long y,long p,long r,long 
 
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE}; //Assign a mac address
-IPAddress ip(169, 254, 234, 100); //Assign my IP adress
+IPAddress ip(192,168,1,117); //Assign my IP adress
 unsigned int localPort = 5000; //Assign a Port to talk over
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 String datReq; //String for our data
@@ -82,35 +82,40 @@ void addNos(String data)
 */
 
 
-Servo LU;
-Servo RU;
+
 Servo FL;
 Servo FR;
 Servo BL;
 Servo BR;
-byte LUpin=7;
-byte RUpin=8;
-byte FLpin=6;
+Servo LU;
+Servo RU;
+byte FLpin=3;
 byte FRpin=5;
-byte BLpin=3;
-byte BRpin=2;
-
+byte BLpin=8;
+byte BRpin=6;
+byte LUpin=7;
+byte RUpin=4;
 byte pair=0;
 
 void writeUD(int sig)
 {
   LU.writeMicroseconds(sig);
+  sig=3000-sig;
   RU.writeMicroseconds(sig);
 }
 void writeFR(int sig)
 {
+  
   FL.writeMicroseconds(sig);
+  sig=1500-(sig-1500);
   FR.writeMicroseconds(sig);
 }
 void writeBR(int sig)
 {
-  BL.writeMicroseconds(sig);
+ 
   BR.writeMicroseconds(sig);
+  sig=3000-sig;
+  BL.writeMicroseconds(sig);
 }
 void writeLR(int sig)
 {
@@ -122,6 +127,20 @@ void writeRR(int sig)
   FL.writeMicroseconds(sig);
   BR.writeMicroseconds(sig);
 }
+void writeLL(int sig)
+{
+  FL.writeMicroseconds(sig);
+  sig=3000-sig;
+  BL.writeMicroseconds(sig);
+}
+void writeRRR(int sig)
+{
+  FR.writeMicroseconds(sig);
+  sig=3000-sig;
+  BR.writeMicroseconds(sig);
+}
+
+
 
 void thruster_movement()
 {
@@ -132,11 +151,13 @@ void thruster_movement()
     if(nos[3]>0)
     {
       sig=map(nos[3],1,10,1500,1200);
+      //sig=1550;
       writeUD(sig);
     }
     else
     {
       sig=map(nos[3],-1,-10,1500,1800);
+      //sig=1550;
       writeUD(sig);
     }
   }
@@ -146,11 +167,13 @@ void thruster_movement()
     if(nos[1]>0)
     {
       sig=map(nos[1],1,10,1500,1800);
+      //sig=1550;
       writeBR(sig);
     }
     else
     {
-      sig=map(nos[1],-1,-10,1500,1200);
+      sig=map(nos[1],-1,-10,1500,1800);
+      //sig=1550;
       writeFR(sig);
     }
   
@@ -159,15 +182,31 @@ void thruster_movement()
   else if(nos[0]!=0)
   {
     pair=3;
-    if(nos[0]>0)
+    if(nos[0]<0)
     {
-      sig=map(nos[1],1,10,1500,1800);
+      sig=map(nos[0],-1,-10,1500,1200);
+      //sig=1550;
       writeLR(sig);
     }
     else
     {
-      sig=map(nos[1],-1,-10,1500,1200);
+      sig=map(nos[0],1,10,1500,1800);
+      //sig=1550;
       writeRR(sig);
+    }
+  }
+  else if(nos[4]!=0)
+  {
+    pair=4;
+    if(nos[4]<0)
+    {
+      sig=map(nos[4],-1,-10,1500,1200);
+      writeLL(sig);
+    }
+    else
+    {
+      sig=map(nos[4],-1,-10,1500,1200);
+      writeRRR(sig);
     }
   }
   else
@@ -188,6 +227,11 @@ void thruster_movement()
             pair=0;
             writeLR(sig);
             writeRR(sig);
+            break;
+      case 4:
+            pair=0;
+            writeLL(sig);
+            writeRRR(sig);
             break;
     }
   }  
