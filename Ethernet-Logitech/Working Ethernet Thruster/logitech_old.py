@@ -5,7 +5,7 @@ import sys
 
 # Create a UDP socket
 
-server_address = ('192.168.1.117', 5000)
+server_address = ('169.254.234.100', 5000)
 # Initializing controller
 pygame.init()
 j = pygame.joystick.Joystick(0)

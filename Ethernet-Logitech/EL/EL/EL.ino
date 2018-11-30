@@ -89,7 +89,7 @@ void thruster_movement()
   int signal=1500;
   if(nos[2]<0)
   {Serial.println("zzzzzzzzzzzz");
-    signal=map(nos[2],-1,-10,1500,1600);
+    signal=map(nos[2],-1,-10,1500,1550);
     servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
     servo2.writeMicroseconds(signal);
@@ -99,7 +99,7 @@ void thruster_movement()
   */}
   else if(nos[2]>0)
   {Serial.println("aaaaaaaaaaaa");
-    signal=map(nos[2],1,10,1500,1400);
+    signal=map(nos[2],1,10,1500,1450);
     /*servo.writeMicroseconds(signal);
     servo1.writeMicroseconds(signal);
     servo2.writeMicroseconds(signal);
