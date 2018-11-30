@@ -147,7 +147,7 @@ void setup() {
 }
 
 void loop() {
-
+Serial.println("scam loop");
   temp = random(15,30);
   humidity = random(10,300);
   internal_pressure = random(50,200);
@@ -171,14 +171,14 @@ void loop() {
   Udp.print(output); //Send string back to client 
   Udp.endPacket(); //Packet has been sent
   memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
-  if(nos[0]!=0 || nos[1]!=0)Serial.println("LS");
+  /*if(nos[0]!=0 || nos[1]!=0)Serial.println("LS");
   else if(nos[2]>0)Serial.println("LT");
   else if(nos[2]<0)Serial.println("RT");
   if(nos[8]==1) 
   {
     Serial.println('Y');
     
-  }
+  }*/
   thruster_movement();
-  Serial.println("scam loop");
+  
 }

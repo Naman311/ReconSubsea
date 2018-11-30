@@ -38,7 +38,7 @@ String converstion(int t1,int t2,int t3,int t4,int v1,long y,long p,long r,long 
 
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE}; //Assign a mac address
-IPAddress ip(169, 254, 234, 100); //Assign my IP adress
+IPAddress ip(192,168,1,117); //Assign my IP adress
 unsigned int localPort = 5000; //Assign a Port to talk over
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 String datReq; //String for our data
