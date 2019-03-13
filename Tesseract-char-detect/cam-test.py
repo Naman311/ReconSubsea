@@ -4,7 +4,7 @@ import sys
 import pytesseract
 
 #ip='rtsp://admin:@192.168.1.41/user=admin&password=&channel=1&stream=0.sdp?'
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 config = ('-l eng --oem 1 --psm 3')
 
  
