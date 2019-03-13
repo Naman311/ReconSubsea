@@ -135,10 +135,7 @@ def detect():
                 strFinalString = strFinalString + strCurrentChar            # append current char to full string
     # end for
 
-                struh8="UH8"
-                if strFinalString.find(struh8)>0:
-                    print(struh8)
-                #print ("\n" + strFinalString + "\n")                  # show the full string
+                print ("\n" + strFinalString + "\n")                  # show the full string
 
                 cv2.imshow("imgTestingNumbers", frame)      # show input image with green boxes drawn around found digits
             if cv2.waitKey(1) & 0xFF==ord('v'):                                          # wait for user key press
